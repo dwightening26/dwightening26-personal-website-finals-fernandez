@@ -1,11 +1,11 @@
 import { useEffect, useState, useRef } from 'react';
 import { supabase } from './supabaseClient';
 import avatar from './profile.png';
-import blondeCover       from './blonde.jpg';
-import gnxCover          from './gnx.jpg';
-import freudianCover     from './freudian.jpg';
-import jesusisskingCover from './jesusisking.jpg';
-import apricotCover      from './apricotprincess.jpg';
+import blondeCover       from './blonde.png';
+import gnxCover          from './gnx.png';
+import freudianCover     from './freudian.png';
+import jesusisskingCover from './Jesusisking.png';
+import apricotCover      from './apricotprincess.png';
 import './App.css';
 
 const TIMELINE = [
