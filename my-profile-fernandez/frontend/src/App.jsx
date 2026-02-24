@@ -159,7 +159,7 @@ function App() {
         <div className="nav-right">
           <span className="nav-status">
             <span className="status-dot" />
-            Available for work
+            Online
           </span>
           <button
             className="theme-toggle"
