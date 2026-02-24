@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { supabase } from './supabaseClient';
 import './App.css';
 
@@ -19,11 +19,39 @@ const PROJECTS = [
   },
 ];
 
+// Triggers 'visible' class when element scrolls into view
+function useScrollReveal(options = {}) {
+  const ref = useRef(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        el.classList.add('visible');
+        observer.unobserve(el);
+      }
+    }, { threshold: 0.12, ...options });
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  return ref;
+}
+
 function App() {
   const [entries, setEntries] = useState([]);
   const [form, setForm] = useState({ name: '', message: '' });
   const [darkMode, setDarkMode] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  const skillsRef   = useScrollReveal();
+  const projectsRef = useScrollReveal();
+  const aboutRef    = useScrollReveal();
+  const guestRef    = useScrollReveal();
+  const footerRef   = useScrollReveal();
 
   const fetchEntries = async () => {
     const { data } = await supabase
@@ -83,7 +111,7 @@ function App() {
         </div>
       </nav>
 
-      {/* HERO */}
+      {/* HERO — animates on load */}
       <section className="hero">
         <p className="eyebrow">Frontend Developer · IT Student</p>
         <h1>
@@ -106,21 +134,32 @@ function App() {
       </section>
 
       {/* SKILLS */}
-      <section className="section">
+      <section ref={skillsRef} className="section reveal">
         <p className="section-label">Tech Stack</p>
         <div className="skills-wrap">
-          {SKILLS.map(skill => (
-            <span key={skill} className="skill-tag">{skill}</span>
+          {SKILLS.map((skill, i) => (
+            <span
+              key={skill}
+              className="skill-tag"
+              style={{ transitionDelay: `${i * 40}ms` }}
+            >
+              {skill}
+            </span>
           ))}
         </div>
       </section>
 
       {/* PROJECTS */}
-      <section className="section">
+      <section ref={projectsRef} className="section reveal">
         <p className="section-label">Selected Projects</p>
         <div className="projects-list">
           {PROJECTS.map((project, i) => (
-            <a key={project.name} className="project-row" href={project.href}>
+            <a
+              key={project.name}
+              className="project-row"
+              href={project.href}
+              style={{ transitionDelay: `${i * 80}ms` }}
+            >
               <div className="project-left">
                 <span className="project-num">0{i + 1}</span>
                 <div>
@@ -140,7 +179,7 @@ function App() {
       </section>
 
       {/* ABOUT */}
-      <section className="section about">
+      <section ref={aboutRef} className="section about reveal">
         <p className="section-label">About</p>
         <p className="about-text">
           I'm an IT student focused on building maintainable, performant web applications.
@@ -151,7 +190,7 @@ function App() {
       </section>
 
       {/* GUESTBOOK */}
-      <section className="section">
+      <section ref={guestRef} className="section reveal">
         <p className="section-label">Guestbook</p>
 
         <div className="guestbook-form">
@@ -185,8 +224,12 @@ function App() {
 
         {entries.length > 0 && (
           <div className="entries-list">
-            {entries.map(entry => (
-              <div key={entry.id} className="entry-item">
+            {entries.map((entry, i) => (
+              <div
+                key={entry.id}
+                className="entry-item"
+                style={{ transitionDelay: `${i * 60}ms` }}
+              >
                 <div className="entry-top">
                   <strong className="entry-name">{entry.name}</strong>
                   <span className="entry-date">
@@ -209,7 +252,7 @@ function App() {
       </section>
 
       {/* FOOTER */}
-      <footer className="footer">
+      <footer ref={footerRef} className="footer reveal">
         <span className="footer-name">Dwight Fernandez</span>
         <span className="footer-copy">© 2026 · Built with React & Supabase</span>
       </footer>
