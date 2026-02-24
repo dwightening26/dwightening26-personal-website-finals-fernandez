@@ -16,7 +16,7 @@ const TIMELINE = [
     highlight: true,
   },
   {
-    date: ' Feb of 2026',
+    date: 'Feb of 2026',
     title: 'Built this portfolio',
     desc: 'Put real time and effort into crafting something that represents who I am as a developer.',
   },
@@ -35,6 +35,14 @@ const PROJECTS = [
     tags: ['React', 'CSS'],
     href: '#',
   },
+];
+
+const ALBUMS = [
+  { title: 'Blonde',           artist: 'Frank Ocean',       color: '#C4A882' },
+  { title: 'GNX',              artist: 'Kendrick Lamar',    color: '#1A1A2E' },
+  { title: 'Freudian',         artist: 'Daniel Caesar',     color: '#8B6F5E' },
+  { title: 'JESUS IS KING',    artist: 'Kanye West',        color: '#D4C5A9' },
+  { title: 'Apricot Princess', artist: 'Rex Orange County', color: '#E8A87C' },
 ];
 
 // Triggers 'visible' class when element scrolls into view
@@ -68,6 +76,7 @@ function App() {
   const timelineRef = useScrollReveal();
   const projectsRef = useScrollReveal();
   const aboutRef    = useScrollReveal();
+  const albumsRef   = useScrollReveal();
   const guestRef    = useScrollReveal();
   const footerRef   = useScrollReveal();
 
@@ -129,12 +138,10 @@ function App() {
         </div>
       </nav>
 
-      {/* HERO — animates on load */}
+      {/* HERO */}
       <section className="hero">
         <p className="eyebrow">IT Student</p>
-        <h1>
-          Welcome to my personal profile.<br />
-        </h1>
+        <h1>Welcome to my personal profile.</h1>
         <p className="hero-description">
           Welcome. I'm Dwight. By day an IT student, by night a gamer and gym rat.
         </p>
@@ -147,8 +154,6 @@ function App() {
           </a>
         </div>
       </section>
-
-
 
       {/* TIMELINE */}
       <section ref={timelineRef} className="section reveal">
@@ -172,6 +177,8 @@ function App() {
           ))}
         </div>
       </section>
+
+      {/* PROJECTS */}
       <section ref={projectsRef} className="section reveal">
         <p className="section-label">Selected Projects</p>
         <div className="projects-list">
@@ -209,6 +216,32 @@ function App() {
           of tech, you'll find me playing sports or pushing my limits at the gym — the same
           discipline carries into everything I build.
         </p>
+      </section>
+
+      {/* ALBUMS */}
+      <section ref={albumsRef} className="section reveal">
+        <p className="section-label">Favorite Albums</p>
+        <div className="albums-grid">
+          {ALBUMS.map((album, i) => (
+            <div
+              key={album.title}
+              className="vinyl-card"
+              style={{ transitionDelay: `${i * 80}ms` }}
+            >
+              <div className="vinyl-wrap">
+                <div className="vinyl-record" style={{ '--vinyl-color': album.color }}>
+                  <div className="vinyl-label">
+                    <span className="vinyl-title">{album.title}</span>
+                  </div>
+                </div>
+              </div>
+              <div className="vinyl-info">
+                <p className="vinyl-album">{album.title}</p>
+                <p className="vinyl-artist">{album.artist}</p>
+              </div>
+            </div>
+          ))}
+        </div>
       </section>
 
       {/* GUESTBOOK */}
