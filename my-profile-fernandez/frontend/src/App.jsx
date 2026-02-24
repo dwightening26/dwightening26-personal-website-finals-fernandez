@@ -169,7 +169,7 @@ function App() {
         <p className="eyebrow">IT Student</p>
         <h1>Welcome to my personal profile</h1>
         <p className="hero-description">
-          Welcome. I'm Dwight. By day an IT student, by night a gamer and gym rat.
+          Hi! I’m Dwight Fernandez from IT242, an IT student by day, and a gamer and gym rat by night, always looking to learn, build, and level up in everything I do.
         </p>
         <div className="hero-actions">
           <a className="btn-primary" href="https://github.com/dwightening26?tab=repositories" target="_blank" rel="noreferrer">
@@ -235,12 +235,12 @@ function App() {
 
       {/* ABOUT */}
       <section ref={aboutRef} className="section about reveal">
-        <p className="section-label">About</p>
+        <p className="section-label">About Me</p>
         <p className="about-text">
-          I'm an IT student focused on building maintainable, performant web applications.
-          I enjoy solving real-world problems through clean code and thoughtful UI. Outside
-          of tech, you'll find me playing sports or pushing my limits at the gym — the same
-          discipline carries into everything I build.
+          I’m a 2nd-year IT student who's still finding his craft in his course, but I’m passionate about learning and 
+          experimenting with web technologies. I enjoy tackling real-world problems through clean, efficient code and 
+          thoughtful UI design. Outside of tech, you’ll usually find me at the gym or immersed in gaming bringing 
+          the same focus and dedication to every challenge I take on.
         </p>
       </section>
 
