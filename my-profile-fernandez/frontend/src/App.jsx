@@ -37,11 +37,11 @@ const PROJECTS = [
   },
 ];
 
-import blondeCover       from './blonde.png';
-import gnxCover          from './gnx.png';
-import freudianCover     from './freudian.png';
-import jesusisskingCover from './Jesusisking.png';
-import apricotCover      from './apricotprincess.png';
+import blondeCover       from './blonde.jpg';
+import gnxCover          from './gnx.jpg';
+import freudianCover     from './freudian.jpg';
+import jesusisskingCover from './jesusisking.jpg';
+import apricotCover      from './apricotprincess.jpg';
 
 const ALBUMS = [
   { title: 'Blonde',           artist: 'Frank Ocean',       cover: blondeCover },
@@ -76,7 +76,7 @@ function useScrollReveal(options = {}) {
 function App() {
   const [entries, setEntries] = useState([]);
   const [form, setForm] = useState({ name: '', message: '' });
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState(true);
   const [loading, setLoading] = useState(false);
 
   const timelineRef = useScrollReveal();
