@@ -72,10 +72,11 @@ function useScrollReveal(options = {}) {
 }
 
 function App() {
-  const [entries, setEntries] = useState([]);
-  const [form, setForm] = useState({ name: '', message: '' });
-  const [darkMode, setDarkMode] = useState(true);
-  const [loading, setLoading] = useState(false);
+  const [entries, setEntries]       = useState([]);
+  const [form, setForm]             = useState({ name: '', message: '' });
+  const [darkMode, setDarkMode]     = useState(true);
+  const [loading, setLoading]       = useState(false);
+  const [visitorCount, setVisitorCount] = useState(null);
 
   const timelineRef = useScrollReveal();
   const projectsRef = useScrollReveal();
@@ -91,6 +92,27 @@ function App() {
       .order('created_at', { ascending: false });
     setEntries(data || []);
   };
+
+  // Increment visitor count on load
+  useEffect(() => {
+    const incrementVisitor = async () => {
+      const { data } = await supabase
+        .from('visitor_count')
+        .select('count')
+        .eq('id', 1)
+        .single();
+
+      if (data) {
+        const newCount = data.count + 1;
+        await supabase
+          .from('visitor_count')
+          .update({ count: newCount })
+          .eq('id', 1);
+        setVisitorCount(newCount);
+      }
+    };
+    incrementVisitor();
+  }, []);
 
   useEffect(() => { fetchEntries(); }, []);
 
@@ -145,7 +167,7 @@ function App() {
       {/* HERO */}
       <section className="hero">
         <p className="eyebrow">IT Student</p>
-        <h1>Welcome to my personal profile.</h1>
+        <h1>Welcome to my personal profile</h1>
         <p className="hero-description">
           Welcome. I'm Dwight. By day an IT student, by night a gamer and gym rat.
         </p>
@@ -153,7 +175,7 @@ function App() {
           <a className="btn-primary" href="https://github.com/dwightening26?tab=repositories" target="_blank" rel="noreferrer">
             View GitHub ↗
           </a>
-          <a className="btn-ghost" href="mailto:dwight@email.com">
+          <a className="btn-ghost" href="mailto:ddfernandez@student.apc.edu.ph">
             Get in touch
           </a>
         </div>
@@ -312,6 +334,9 @@ function App() {
       {/* FOOTER */}
       <footer ref={footerRef} className="footer reveal">
         <span className="footer-name">Dwight Fernandez</span>
+        {visitorCount && (
+          <span className="footer-visitor">You are visitor #{visitorCount.toLocaleString()}</span>
+        )}
         <span className="footer-copy">© 2026 · Built with React & Supabase</span>
       </footer>
 
