@@ -2,7 +2,24 @@ import { useEffect, useState, useRef } from 'react';
 import { supabase } from './supabaseClient';
 import './App.css';
 
-const SKILLS = ['React', 'NestJS', 'Supabase', 'PostgreSQL', 'JavaScript', 'TypeScript', 'HTML & CSS', 'Git'];
+const TIMELINE = [
+  {
+    date: 'Aug 2023',
+    title: 'Started BSIT',
+    desc: 'Enrolled at Asia Pacific College, beginning my journey in Information Technology.',
+  },
+  {
+    date: 'Sep 18, 2025',
+    title: 'Kept building through the hardest day',
+    desc: 'Lost my father. Still showed up. Still built. This one is for him.',
+    highlight: true,
+  },
+  {
+    date: '2025 – 2026',
+    title: 'Built this portfolio',
+    desc: 'Put real time and effort into crafting something that represents who I am as a developer.',
+  },
+];
 
 const PROJECTS = [
   {
@@ -47,7 +64,7 @@ function App() {
   const [darkMode, setDarkMode] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const skillsRef   = useScrollReveal();
+  const timelineRef = useScrollReveal();
   const projectsRef = useScrollReveal();
   const aboutRef    = useScrollReveal();
   const guestRef    = useScrollReveal();
@@ -133,23 +150,30 @@ function App() {
         </div>
       </section>
 
-      {/* SKILLS */}
-      <section ref={skillsRef} className="section reveal">
-        <p className="section-label">Tech Stack</p>
-        <div className="skills-wrap">
-          {SKILLS.map((skill, i) => (
-            <span
-              key={skill}
-              className="skill-tag"
-              style={{ transitionDelay: `${i * 40}ms` }}
+
+
+      {/* TIMELINE */}
+      <section ref={timelineRef} className="section reveal">
+        <p className="section-label">Journey</p>
+        <div className="timeline">
+          {TIMELINE.map((item, i) => (
+            <div
+              key={i}
+              className={`timeline-item${item.highlight ? ' timeline-highlight' : ''}`}
+              style={{ transitionDelay: `${i * 100}ms` }}
             >
-              {skill}
-            </span>
+              <div className="timeline-left">
+                <span className="timeline-date">{item.date}</span>
+                <div className="timeline-line" />
+              </div>
+              <div className="timeline-right">
+                <p className="timeline-title">{item.title}</p>
+                <p className="timeline-desc">{item.desc}</p>
+              </div>
+            </div>
           ))}
         </div>
       </section>
-
-      {/* PROJECTS */}
       <section ref={projectsRef} className="section reveal">
         <p className="section-label">Selected Projects</p>
         <div className="projects-list">
