@@ -130,15 +130,13 @@ function App() {
 
       {/* HERO — animates on load */}
       <section className="hero">
-        <p className="eyebrow">Frontend Developer · IT Student</p>
+        <p className="eyebrow">IT Student</p>
         <h1>
           Hi, I'm Dwight.<br />
           <span className="hero-italic">I build for the web.</span>
         </h1>
         <p className="hero-description">
-          Information Technology student crafting clean, scalable web experiences
-          with React, NestJS, and Supabase. Driven by curiosity, fitness, and
-          getting 1% better every day.
+          Welcome. I'm Dwight. By day an IT student, by night a gamer and gym rat.
         </p>
         <div className="hero-actions">
           <a className="btn-primary" href="https://github.com" target="_blank" rel="noreferrer">
