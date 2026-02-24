@@ -1,104 +1,151 @@
+/* 1. DEFINE THEMES */
 :root {
-  --bg: #f8fafc;
+  --bg: #ffffff;
   --text: #0f172a;
-  --card: #ffffff;
+  --card: #f8fafc;
   --border: #e2e8f0;
   --primary: #2563eb;
+  --input-bg: #ffffff;
 }
 
 body.dark {
-  --bg: #0f172a;
+  --bg: #0b1120; /* Deep Midnight Blue */
   --text: #f1f5f9;
   --card: #1e293b;
   --border: #334155;
   --primary: #3b82f6;
+  --input-bg: #0f172a;
 }
 
-/* Fullscreen Background Fix */
-body {
+/* 2. FULLSCREEN BACKGROUND FIX */
+html, body {
   margin: 0;
   padding: 0;
-  background-color: var(--bg);
-  color: var(--text);
-  font-family: system-ui, -apple-system, sans-serif;
-  transition: background 0.3s ease;
+  width: 100%;
   min-height: 100vh;
+  background-color: var(--bg); /* This controls the whole screen */
+  color: var(--text);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.container { max-width: 800px; margin: 0 auto; padding: 4rem 2rem; }
+.page {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+}
 
-/* THEME TOGGLE - TOP RIGHT */
-.theme-toggle {
+/* 3. THE TOGGLE (Fixed Top Right) */
+.dark-toggle-fixed {
   position: fixed;
   top: 1.5rem;
   right: 1.5rem;
-  padding: 0.6rem 1rem;
-  background: var(--card);
-  border: 1px solid var(--border);
-  color: var(--text);
+  z-index: 1000;
+  padding: 0.6rem 1.2rem;
   border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--text);
   font-weight: 600;
   cursor: pointer;
-  z-index: 100;
-  transition: all 0.2s;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-.theme-toggle:hover { border-color: var(--primary); }
+.dark-toggle-fixed:hover {
+  border-color: var(--primary);
+  transform: translateY(-2px);
+}
 
-/* HERO */
+/* 4. HERO & CARDS */
 .hero-box {
   text-align: center;
   margin-bottom: 4rem;
-  animation: slideUp 0.8s ease;
+  animation: slideUp 0.6s ease-out;
 }
 
-.hero-box h1 { font-size: 3rem; margin-bottom: 0.5rem; }
-.subtitle { opacity: 0.7; font-size: 1.2rem; }
+.hero-box h1 {
+  font-size: 3rem;
+  margin: 0;
+  background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
 
-/* LAYOUT */
-.section { margin-bottom: 3rem; }
-.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-.card {
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.project-card {
   background: var(--card);
   border: 1px solid var(--border);
   padding: 1.5rem;
-  border-radius: 12px;
+  border-radius: 16px;
+  transition: transform 0.2s ease;
 }
 
-/* INPUTS */
+.project-card h3 { margin-top: 0; color: var(--text); }
+.project-card p { color: var(--text); opacity: 0.8; font-size: 0.95rem; }
+
+.tag {
+  font-size: 0.75rem;
+  background: rgba(37, 99, 235, 0.1);
+  color: var(--primary);
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-weight: 700;
+  margin-right: 5px;
+}
+
+/* 5. GUESTBOOK FORM */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  padding: 2rem;
+  border-radius: 16px;
+  margin-bottom: 2rem;
+}
+
 input, textarea {
   width: 100%;
-  padding: 0.8rem;
+  padding: 12px;
   margin-bottom: 1rem;
-  border: 1px solid var(--border);
-  background: var(--bg);
-  color: var(--text);
   border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--input-bg);
+  color: var(--text);
   box-sizing: border-box;
 }
 
-.primary-btn {
+.submit-btn {
   width: 100%;
   background: var(--primary);
   color: white;
   border: none;
-  padding: 0.8rem;
+  padding: 12px;
   border-radius: 8px;
-  font-weight: 600;
+  font-weight: 700;
   cursor: pointer;
 }
 
-/* MESSAGES */
-.entry { border-bottom: 1px solid var(--border); padding: 1rem 0; }
-.entry-head { display: flex; justify-content: space-between; font-size: 0.9rem; margin-bottom: 0.5rem; }
-.date { opacity: 0.5; }
+/* 6. ENTRIES */
+.entry-card {
+  border-bottom: 1px solid var(--border);
+  padding: 1.5rem 0;
+}
 
-/* ANIMATIONS */
+.entry-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.date { font-size: 0.8rem; opacity: 0.5; }
+
 @keyframes slideUp {
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
 }
-
-.content-fade-in { animation: slideUp 1s ease; }
-
-@media (max-width: 600px) { .grid { grid-template-columns: 1fr; } }

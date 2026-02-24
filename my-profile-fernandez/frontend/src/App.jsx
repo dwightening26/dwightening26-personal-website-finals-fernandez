@@ -25,7 +25,6 @@ function App() {
     return () => supabase.removeChannel(channel);
   }, []);
 
-  // Use document.body for the most reliable fullscreen theme toggle
   useEffect(() => {
     if (darkMode) {
       document.body.classList.add('dark');
@@ -45,7 +44,7 @@ function App() {
 
   return (
     <div className="container">
-      <button className="theme-toggle" onClick={() => setDarkMode(!darkMode)}>
+      <button className="dark-toggle-fixed" onClick={() => setDarkMode(!darkMode)}>
         {darkMode ? 'Light Mode' : 'Dark Mode'}
       </button>
 
@@ -57,11 +56,11 @@ function App() {
 
         <section className="section">
           <h2>Projects</h2>
-          <div className="grid">
+          <div className="projects-grid">
             {projects.map((p, i) => (
-              <div key={i} className="card project">
-                <h3>{p.title}</h3>
+              <div key={i} className="project-card">
                 <div className="tags">{p.tech.map(t => <span key={t} className="tag">{t}</span>)}</div>
+                <h3>{p.title}</h3>
                 <p>{p.description}</p>
               </div>
             ))}
@@ -74,7 +73,7 @@ function App() {
             <form onSubmit={handleSubmit}>
               <input placeholder="Name" value={form.name} onChange={e => setForm({...form, name: e.target.value})} required />
               <textarea placeholder="Message" value={form.message} onChange={e => setForm({...form, message: e.target.value})} required rows={3} />
-              <button type="submit" className="primary-btn" disabled={loading}>
+              <button type="submit" className="submit-btn" disabled={loading}>
                 {loading ? 'Sending...' : 'Sign Guestbook'}
               </button>
             </form>
@@ -82,8 +81,8 @@ function App() {
 
           <div className="message-list">
             {entries.map(entry => (
-              <div key={entry.id} className="entry">
-                <div className="entry-head">
+              <div key={entry.id} className="entry-card">
+                <div className="entry-header">
                   <strong>{entry.name}</strong>
                   <span className="date">{new Date(entry.created_at).toLocaleDateString()}</span>
                 </div>
@@ -92,6 +91,10 @@ function App() {
             ))}
           </div>
         </section>
+
+        <footer className="footer">
+          © 2026 Dwight Fernandez | Personal Website
+        </footer>
       </div>
     </div>
   );
