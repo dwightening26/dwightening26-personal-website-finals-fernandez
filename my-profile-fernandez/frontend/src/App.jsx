@@ -3,8 +3,9 @@ import { supabase } from './supabaseClient';
 import './App.css';
 
 const projects = [
-  { title: "E-Commerce API", tech: ["NestJS", "PostgreSQL"], description: "High-performance REST API.", link: "#" },
-  { title: "Fitness Tracker", tech: ["React", "Supabase"], description: "Real-time dashboard.", link: "#" }
+  { title: "E-Commerce API", tech: ["NestJS", "PostgreSQL"], description: "High-performance REST API with JWT auth." },
+  { title: "Fitness Tracker", tech: ["React", "Supabase"], description: "Real-time dashboard with social features." },
+  { title: "Task Manager", tech: ["TypeScript", "NestJS"], description: "Background job processing system." }
 ];
 
 function App() {
@@ -14,32 +15,23 @@ function App() {
   const [loading, setLoading] = useState(false);
 
   const fetchEntries = async () => {
-    try {
-      const { data, error } = await supabase
-        .from('guestbook')
-        .select('*')
-        .order('created_at', { ascending: false });
-      if (error) throw error;
-      setEntries(data || []);
-    } catch (err) {
-      console.error("Supabase Error:", err.message);
-    }
+    const { data } = await supabase.from('guestbook').select('*').order('created_at', { ascending: false });
+    setEntries(data || []);
   };
 
   useEffect(() => {
-    if (!supabase) return; // Prevent crash if client is missing
     fetchEntries();
-
-    const channel = supabase
-      .channel('guestbook_channel')
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'guestbook' }, () => fetchEntries())
-      .subscribe();
-
+    const channel = supabase.channel('gb').on('postgres_changes', { event: '*', schema: 'public', table: 'guestbook' }, () => fetchEntries()).subscribe();
     return () => supabase.removeChannel(channel);
   }, []);
 
+  // Use document.body for the most reliable fullscreen theme toggle
   useEffect(() => {
-    document.documentElement.classList.toggle("dark", darkMode);
+    if (darkMode) {
+      document.body.classList.add('dark');
+    } else {
+      document.body.classList.remove('dark');
+    }
   }, [darkMode]);
 
   const handleSubmit = async (e) => {
@@ -52,42 +44,50 @@ function App() {
   };
 
   return (
-    <div className="app-wrapper">
-      <button className="dark-toggle-fixed" onClick={() => setDarkMode(!darkMode)}>
+    <div className="container">
+      <button className="theme-toggle" onClick={() => setDarkMode(!darkMode)}>
         {darkMode ? 'Light Mode' : 'Dark Mode'}
       </button>
 
-      <div className="page">
-        <header className="hero slide-up">
+      <div className="content-fade-in">
+        <header className="hero-box">
           <h1>Dwight Fernandez</h1>
-          <p className="hero-subtitle">IT Student & Developer</p>
+          <p className="subtitle">Information Technology Student</p>
         </header>
 
-        <section className="section-container slide-up">
+        <section className="section">
           <h2>Projects</h2>
-          <div className="projects-grid">
+          <div className="grid">
             {projects.map((p, i) => (
-              <div key={i} className="project-card">
+              <div key={i} className="card project">
                 <h3>{p.title}</h3>
+                <div className="tags">{p.tech.map(t => <span key={t} className="tag">{t}</span>)}</div>
                 <p>{p.description}</p>
               </div>
             ))}
           </div>
         </section>
 
-        <section className="section-container slide-up">
+        <section className="section">
           <h2>Guestbook</h2>
           <div className="card">
             <form onSubmit={handleSubmit}>
               <input placeholder="Name" value={form.name} onChange={e => setForm({...form, name: e.target.value})} required />
-              <textarea placeholder="Message" value={form.message} onChange={e => setForm({...form, message: e.target.value})} required />
-              <button type="submit" className="submit-btn">{loading ? '...' : 'Sign'}</button>
+              <textarea placeholder="Message" value={form.message} onChange={e => setForm({...form, message: e.target.value})} required rows={3} />
+              <button type="submit" className="primary-btn" disabled={loading}>
+                {loading ? 'Sending...' : 'Sign Guestbook'}
+              </button>
             </form>
           </div>
-          <div className="entries">
+
+          <div className="message-list">
             {entries.map(entry => (
-              <div key={entry.id} className="entry-card">
-                <strong>{entry.name}</strong>: {entry.message}
+              <div key={entry.id} className="entry">
+                <div className="entry-head">
+                  <strong>{entry.name}</strong>
+                  <span className="date">{new Date(entry.created_at).toLocaleDateString()}</span>
+                </div>
+                <p>{entry.message}</p>
               </div>
             ))}
           </div>
