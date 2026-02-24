@@ -77,6 +77,10 @@ function App() {
   const [darkMode, setDarkMode]     = useState(true);
   const [loading, setLoading]       = useState(false);
   const [visitorCount, setVisitorCount] = useState(null);
+  const [likedIds, setLikedIds]     = useState(() => {
+    const stored = localStorage.getItem('guestbook_likes');
+    return stored ? JSON.parse(stored) : [];
+  });
 
   const timelineRef = useScrollReveal();
   const projectsRef = useScrollReveal();
@@ -93,7 +97,6 @@ function App() {
     setEntries(data || []);
   };
 
-  // Increment visitor count on load
   useEffect(() => {
     const incrementVisitor = async () => {
       const { data } = await supabase
@@ -136,10 +139,14 @@ function App() {
   };
 
   const handleLike = async (id, currentLikes) => {
+    if (likedIds.includes(id)) return;
     await supabase
       .from('guestbook')
       .update({ likes: currentLikes + 1 })
       .eq('id', id);
+    const updatedLikes = [...likedIds, id];
+    setLikedIds(updatedLikes);
+    localStorage.setItem('guestbook_likes', JSON.stringify(updatedLikes));
     fetchEntries();
   };
 
@@ -148,7 +155,7 @@ function App() {
 
       {/* NAV */}
       <nav className="nav">
-        <img src={avatar} alt="Dwight Fernandez" className="nav-avatar" />
+        <img src={avatar} alt="Avatar" className="nav-avatar" />
         <div className="nav-right">
           <span className="nav-status">
             <span className="status-dot" />
@@ -169,13 +176,13 @@ function App() {
         <p className="eyebrow">IT Student</p>
         <h1>Welcome to my personal profile</h1>
         <p className="hero-description">
-          Hi! I’m Dwight Fernandez from IT242, an IT student by day, and a gamer and gym rat by night, always looking to learn, build, and level up in everything I do.
+          Hi! I'm Dwight Fernandez from IT242, an IT student by day, and a gamer and gym rat by night, always looking to learn, build, and level up in everything I do.
         </p>
         <div className="hero-actions">
-          <a className="btn-primary" href="https://github.com/dwightening26?tab=repositories" target="_blank" rel="noreferrer">
+          <a className="btn-primary" href="https://github.com" target="_blank" rel="noreferrer">
             View GitHub ↗
           </a>
-          <a className="btn-ghost" href="mailto:ddfernandez@student.apc.edu.ph">
+          <a className="btn-ghost" href="mailto:dwight@student.apc.edu.ph">
             Get in touch
           </a>
         </div>
@@ -183,20 +190,19 @@ function App() {
 
       {/* TIMELINE */}
       <section ref={timelineRef} className="section reveal">
-        <p className="section-label">Journey</p>
+        <h2 className="section-label">Journey</h2>
         <div className="timeline">
           {TIMELINE.map((item, i) => (
             <div
               key={i}
-              className={`timeline-item${item.highlight ? ' timeline-highlight' : ''}`}
-              style={{ transitionDelay: `${i * 100}ms` }}
+              className={`timeline-item ${item.highlight ? 'timeline-highlight' : ''}`}
             >
               <div className="timeline-left">
                 <span className="timeline-date">{item.date}</span>
                 <div className="timeline-line" />
               </div>
               <div className="timeline-right">
-                <p className="timeline-title">{item.title}</p>
+                <h3 className="timeline-title">{item.title}</h3>
                 <p className="timeline-desc">{item.desc}</p>
               </div>
             </div>
@@ -206,19 +212,14 @@ function App() {
 
       {/* PROJECTS */}
       <section ref={projectsRef} className="section reveal">
-        <p className="section-label">Selected Projects</p>
+        <h2 className="section-label">Selected Projects</h2>
         <div className="projects-list">
           {PROJECTS.map((project, i) => (
-            <a
-              key={project.name}
-              className="project-row"
-              href={project.href}
-              style={{ transitionDelay: `${i * 80}ms` }}
-            >
+            <a key={i} className="project-row" href={project.href}>
               <div className="project-left">
                 <span className="project-num">0{i + 1}</span>
                 <div>
-                  <p className="project-name">{project.name}</p>
+                  <h3 className="project-name">{project.name}</h3>
                   <p className="project-desc">{project.desc}</p>
                   <div className="project-tags">
                     {project.tags.map(tag => (
@@ -234,26 +235,22 @@ function App() {
       </section>
 
       {/* ABOUT */}
-      <section ref={aboutRef} className="section about reveal">
-        <p className="section-label">About Me</p>
+      <section ref={aboutRef} className="section reveal">
+        <h2 className="section-label">About Me</h2>
         <p className="about-text">
-          I’m a 2nd-year IT student who's still finding his craft in his course, but I’m passionate about learning and 
-          experimenting with web technologies. I enjoy tackling real-world problems through clean, efficient code and 
-          thoughtful UI design. Outside of tech, you’ll usually find me at the gym or immersed in gaming bringing 
+          I'm a 2nd-year IT student who's still finding his craft in his course, but I'm passionate about learning and
+          experimenting with web technologies. I enjoy tackling real-world problems through clean, efficient code and
+          thoughtful UI design. Outside of tech, you'll usually find me at the gym or immersed in gaming bringing
           the same focus and dedication to every challenge I take on.
         </p>
       </section>
 
       {/* ALBUMS */}
       <section ref={albumsRef} className="section reveal">
-        <p className="section-label">Favorite Albums</p>
+        <h2 className="section-label">Favorite Albums</h2>
         <div className="albums-grid">
           {ALBUMS.map((album, i) => (
-            <div
-              key={album.title}
-              className="vinyl-card"
-              style={{ transitionDelay: `${i * 80}ms` }}
-            >
+            <div key={i} className="vinyl-card">
               <div className="vinyl-wrap">
                 <div className="vinyl-record">
                   <img src={album.cover} alt={album.title} className="vinyl-cover" />
@@ -271,23 +268,22 @@ function App() {
 
       {/* GUESTBOOK */}
       <section ref={guestRef} className="section reveal">
-        <p className="section-label">Guestbook</p>
+        <h2 className="section-label">Guestbook</h2>
 
         <div className="guestbook-form">
           <form onSubmit={handleSubmit}>
             <input
-              type="text"
               className="field"
               placeholder="Your name"
               value={form.name}
-              onChange={e => setForm({ ...form, name: e.target.value })}
+              onChange={(e) => setForm({ ...form, name: e.target.value })}
               required
             />
             <textarea
               className="field"
-              placeholder="Leave a message..."
+              placeholder="Leave a message…"
               value={form.message}
-              onChange={e => setForm({ ...form, message: e.target.value })}
+              onChange={(e) => setForm({ ...form, message: e.target.value })}
               required
               rows={3}
             />
@@ -320,8 +316,9 @@ function App() {
                 </div>
                 <p className="entry-msg">{entry.message}</p>
                 <button
-                  className="like-btn"
+                  className={`like-btn ${likedIds.includes(entry.id) ? 'liked' : ''}`}
                   onClick={() => handleLike(entry.id, entry.likes || 0)}
+                  disabled={likedIds.includes(entry.id)}
                 >
                   ♥ {entry.likes || 0}
                 </button>

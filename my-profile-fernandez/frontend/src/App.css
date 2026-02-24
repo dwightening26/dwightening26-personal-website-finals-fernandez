@@ -616,6 +616,18 @@ a { text-decoration: none; color: inherit; }
   background: none;
 }
 
+.like-btn.liked {
+  border-color: #ef4444;
+  color: #ef4444;
+  opacity: 0.6;
+  cursor: default;
+}
+
+.like-btn.liked:hover {
+  opacity: 0.6;
+}
+
+
 /* ── ALBUMS ──────────────────────────────────────── */
 .albums-grid {
   display: grid;
