@@ -16,7 +16,9 @@
   --radius:       10px;
 }
 
-body.dark {
+body.dark,
+html.dark,
+#root.dark {
   --bg:           #000000;
   --surface:      #0D0D0D;
   --surface-2:    #141414;
@@ -32,12 +34,23 @@ body.dark {
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 /* ── BASE ────────────────────────────────────────── */
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
 body {
   font-family: var(--sans);
   background: var(--bg);
   color: var(--text);
   transition: background 0.4s ease, color 0.4s ease;
   -webkit-font-smoothing: antialiased;
+}
+
+#root {
+  background: var(--bg);
+  transition: background 0.4s ease;
 }
 
 a { text-decoration: none; color: inherit; }

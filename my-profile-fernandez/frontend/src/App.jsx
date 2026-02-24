@@ -37,6 +37,8 @@ function App() {
 
   useEffect(() => {
     document.body.classList.toggle('dark', darkMode);
+    document.getElementById('root')?.classList.toggle('dark', darkMode);
+    document.documentElement.classList.toggle('dark', darkMode);
   }, [darkMode]);
 
   const handleSubmit = async (e) => {
@@ -97,7 +99,7 @@ function App() {
           <a className="btn-primary" href="https://github.com" target="_blank" rel="noreferrer">
             View GitHub ↗
           </a>
-          <a className="btn-ghost" href="mailto:ddfernandez@student.apc.edu.ph">
+          <a className="btn-ghost" href="mailto:dwight@email.com">
             Get in touch
           </a>
         </div>
@@ -143,7 +145,7 @@ function App() {
         <p className="about-text">
           I'm an IT student focused on building maintainable, performant web applications.
           I enjoy solving real-world problems through clean code and thoughtful UI. Outside
-          of tech, you'll find me playing games or pushing my limits at the gym the same
+          of tech, you'll find me playing sports or pushing my limits at the gym — the same
           discipline carries into everything I build.
         </p>
       </section>
