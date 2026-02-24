@@ -114,10 +114,18 @@ a { text-decoration: none; color: inherit; }
   to   { opacity: 1; transform: translateY(0); }
 }
 
-.nav-brand {
-  font-family: var(--serif);
-  font-size: 1.3rem;
-  letter-spacing: -0.01em;
+.nav-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center top;
+  border: 1px solid var(--border);
+  transition: border-color 0.2s ease;
+}
+
+.nav-avatar:hover {
+  border-color: var(--accent);
 }
 
 .nav-right {

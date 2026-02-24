@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 import { supabase } from './supabaseClient';
+import avatar from './profile.png';
 import './App.css';
 
 const TIMELINE = [
@@ -112,7 +113,7 @@ function App() {
 
       {/* NAV */}
       <nav className="nav">
-        <span className="nav-brand">DF</span>
+        <img src={avatar} alt="Dwight Fernandez" className="nav-avatar" />
         <div className="nav-right">
           <span className="nav-status">
             <span className="status-dot" />
@@ -133,6 +134,7 @@ function App() {
         <p className="eyebrow">IT Student</p>
         <h1>
           Welcome to my personal profile.<br />
+          <span className="hero-italic">I'm Dwight. Still figuring it out, one commit at a time.</span>
         </h1>
         <p className="hero-description">
           Welcome. I'm Dwight. By day an IT student, by night a gamer and gym rat.
