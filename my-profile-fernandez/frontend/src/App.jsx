@@ -21,7 +21,7 @@ function App() {
     fetchEntries();
   }, []);
 
-  // Apply dark mode to BODY
+  // Apply dark mode to full body
   useEffect(() => {
     if (darkMode) {
       document.body.classList.add("dark");
@@ -60,7 +60,7 @@ function App() {
 
       {/* SYSTEM BAR */}
       <div className="system-bar">
-        <span>Modern Dev OS</span>
+        <span>Dwight Portfolio</span>
         <span>Status: Online</span>
       </div>
 
@@ -79,6 +79,17 @@ function App() {
         >
           {darkMode ? 'Light Mode' : 'Dark Mode'}
         </button>
+      </section>
+
+      {/* ABOUT */}
+      <section className="about">
+        <h2>About Me</h2>
+        <p>
+          I'm an Information Technology student focused on building scalable,
+          maintainable web applications. I enjoy solving real-world problems,
+          improving system performance, and continuously developing both
+          technical skills and personal discipline.
+        </p>
       </section>
 
       {/* SKILLS */}
