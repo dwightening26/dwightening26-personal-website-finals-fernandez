@@ -17,10 +17,10 @@
 }
 
 body.dark {
-  --bg:           #111010;
-  --surface:      #1A1918;
-  --surface-2:    #222120;
-  --border:       #2E2C2B;
+  --bg:           #000000;
+  --surface:      #0D0D0D;
+  --surface-2:    #141414;
+  --border:       #222222;
   --text:         #F0EDE8;
   --text-muted:   #6B6764;
   --accent:       #5A82F5;
