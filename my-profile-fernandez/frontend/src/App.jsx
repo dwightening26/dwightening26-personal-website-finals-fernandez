@@ -1,6 +1,11 @@
 import { useEffect, useState, useRef } from 'react';
 import { supabase } from './supabaseClient';
 import avatar from './profile.png';
+import blondeCover       from './blonde.jpg';
+import gnxCover          from './gnx.jpg';
+import freudianCover     from './freudian.jpg';
+import jesusisskingCover from './jesusisking.jpg';
+import apricotCover      from './apricotprincess.jpg';
 import './App.css';
 
 const TIMELINE = [
@@ -37,12 +42,6 @@ const PROJECTS = [
   },
 ];
 
-import blondeCover       from './blonde.jpg';
-import gnxCover          from './gnx.jpg';
-import freudianCover     from './freudian.jpg';
-import jesusisskingCover from './jesusisking.jpg';
-import apricotCover      from './apricotprincess.jpg';
-
 const ALBUMS = [
   { title: 'Blonde',           artist: 'Frank Ocean',       cover: blondeCover },
   { title: 'GNX',              artist: 'Kendrick Lamar',    cover: gnxCover },
@@ -51,7 +50,6 @@ const ALBUMS = [
   { title: 'Apricot Princess', artist: 'Rex Orange County', cover: apricotCover },
 ];
 
-// Triggers 'visible' class when element scrolls into view
 function useScrollReveal(options = {}) {
   const ref = useRef(null);
 
@@ -316,6 +314,22 @@ function App() {
         <span className="footer-name">Dwight Fernandez</span>
         <span className="footer-copy">© 2026 · Built with React & Supabase</span>
       </footer>
+
+      {/* NOW PLAYING */}
+      <div className="now-playing">
+        <img src={blondeCover} alt="Blonde" className="now-playing-cover" />
+        <div className="now-playing-info">
+          <span className="now-playing-label">Now Playing</span>
+          <span className="now-playing-track">Self Control</span>
+          <span className="now-playing-artist">Frank Ocean</span>
+        </div>
+        <div className="now-playing-bars">
+          <span className="bar" />
+          <span className="bar" />
+          <span className="bar" />
+          <span className="bar" />
+        </div>
+      </div>
 
     </div>
   );
