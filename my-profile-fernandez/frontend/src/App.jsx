@@ -37,12 +37,18 @@ const PROJECTS = [
   },
 ];
 
+import blondeCover       from './blonde.png';
+import gnxCover          from './gnx.png';
+import freudianCover     from './freudian.png';
+import jesusisskingCover from './Jesusisking.png';
+import apricotCover      from './apricotprincess.png';
+
 const ALBUMS = [
-  { title: 'Blonde',           artist: 'Frank Ocean',       color: '#C4A882' },
-  { title: 'GNX',              artist: 'Kendrick Lamar',    color: '#1A1A2E' },
-  { title: 'Freudian',         artist: 'Daniel Caesar',     color: '#8B6F5E' },
-  { title: 'JESUS IS KING',    artist: 'Kanye West',        color: '#D4C5A9' },
-  { title: 'Apricot Princess', artist: 'Rex Orange County', color: '#E8A87C' },
+  { title: 'Blonde',           artist: 'Frank Ocean',       cover: blondeCover },
+  { title: 'GNX',              artist: 'Kendrick Lamar',    cover: gnxCover },
+  { title: 'Freudian',         artist: 'Daniel Caesar',     cover: freudianCover },
+  { title: 'JESUS IS KING',    artist: 'Kanye West',        cover: jesusisskingCover },
+  { title: 'Apricot Princess', artist: 'Rex Orange County', cover: apricotCover },
 ];
 
 // Triggers 'visible' class when element scrolls into view
@@ -229,10 +235,9 @@ function App() {
               style={{ transitionDelay: `${i * 80}ms` }}
             >
               <div className="vinyl-wrap">
-                <div className="vinyl-record" style={{ '--vinyl-color': album.color }}>
-                  <div className="vinyl-label">
-                    <span className="vinyl-title">{album.title}</span>
-                  </div>
+                <div className="vinyl-record">
+                  <img src={album.cover} alt={album.title} className="vinyl-cover" />
+                  <div className="vinyl-hole" />
                 </div>
               </div>
               <div className="vinyl-info">

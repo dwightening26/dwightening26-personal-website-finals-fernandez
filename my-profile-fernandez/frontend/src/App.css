@@ -641,60 +641,39 @@ a { text-decoration: none; color: inherit; }
   width: 110px;
   height: 110px;
   border-radius: 50%;
-  background: radial-gradient(
-    circle at center,
-    var(--vinyl-color) 0%,
-    var(--vinyl-color) 22%,
-    #111 23%,
-    #1a1a1a 30%,
-    #111 31%,
-    #1a1a1a 40%,
-    #111 41%,
-    #1a1a1a 52%,
-    #111 53%,
-    #1a1a1a 65%,
-    #111 66%,
-    #1a1a1a 78%,
-    #111 79%,
-    #222 100%
-  );
-  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.25);
   transition: transform 1.8s cubic-bezier(0.25, 0.46, 0.45, 0.94),
               box-shadow 0.3s ease;
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
 }
 
 .vinyl-card:hover .vinyl-record {
   transform: rotate(360deg);
-  box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.35);
 }
 
-.vinyl-label {
-  width: 38px;
-  height: 38px;
+.vinyl-cover {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
   border-radius: 50%;
-  background: var(--vinyl-color);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1;
-  padding: 4px;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
-.vinyl-title {
-  font-size: 0.3rem;
-  font-weight: 700;
-  color: rgba(0,0,0,0.5);
-  text-align: center;
-  line-height: 1.2;
-  letter-spacing: 0.02em;
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
+.vinyl-hole {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--bg);
+  position: absolute;
+  z-index: 2;
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.2);
 }
 
 .vinyl-info {
