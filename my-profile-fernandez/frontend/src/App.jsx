@@ -152,7 +152,7 @@ function App() {
           Welcome. I'm Dwight. By day an IT student, by night a gamer and gym rat.
         </p>
         <div className="hero-actions">
-          <a className="btn-primary" href="https://github.com" target="_blank" rel="noreferrer">
+          <a className="btn-primary" href="https://github.com/dwightening26?tab=repositories" target="_blank" rel="noreferrer">
             View GitHub ↗
           </a>
           <a className="btn-ghost" href="mailto:dwight@email.com">
