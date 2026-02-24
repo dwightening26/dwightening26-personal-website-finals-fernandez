@@ -2,12 +2,6 @@ import { useEffect, useState } from 'react';
 import { supabase } from './supabaseClient';
 import './App.css';
 
-const projects = [
-  { title: "E-Commerce API", tech: ["NestJS", "PostgreSQL"], description: "High-performance REST API with JWT auth." },
-  { title: "Fitness Tracker", tech: ["React", "Supabase"], description: "Real-time dashboard with social features." },
-  { title: "Task Manager", tech: ["TypeScript", "NestJS"], description: "Background job processing system." }
-];
-
 function App() {
   const [entries, setEntries] = useState([]);
   const [form, setForm] = useState({ name: '', message: '' });
@@ -15,87 +9,161 @@ function App() {
   const [loading, setLoading] = useState(false);
 
   const fetchEntries = async () => {
-    const { data } = await supabase.from('guestbook').select('*').order('created_at', { ascending: false });
+    const { data } = await supabase
+      .from('guestbook')
+      .select('*')
+      .order('created_at', { ascending: false });
+
     setEntries(data || []);
   };
 
   useEffect(() => {
     fetchEntries();
-    const channel = supabase.channel('gb').on('postgres_changes', { event: '*', schema: 'public', table: 'guestbook' }, () => fetchEntries()).subscribe();
-    return () => supabase.removeChannel(channel);
   }, []);
 
+  // Apply dark mode to full body
   useEffect(() => {
     if (darkMode) {
-      document.body.classList.add('dark');
+      document.body.classList.add("dark");
     } else {
-      document.body.classList.remove('dark');
+      document.body.classList.remove("dark");
     }
   }, [darkMode]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    await supabase.from('guestbook').insert([{ name: form.name, message: form.message }]);
-    setForm({ name: '', message: '' });
+
+    const { error } = await supabase
+      .from('guestbook')
+      .insert([{ name: form.name, message: form.message }]);
+
+    if (!error) {
+      setForm({ name: '', message: '' });
+      fetchEntries();
+    }
+
     setLoading(false);
+  };
+
+  const handleLike = async (id, currentLikes) => {
+    await supabase
+      .from('guestbook')
+      .update({ likes: currentLikes + 1 })
+      .eq('id', id);
+
     fetchEntries();
   };
 
   return (
-    <div className="container">
-      <button className="dark-toggle-fixed" onClick={() => setDarkMode(!darkMode)}>
-        {darkMode ? 'Light Mode' : 'Dark Mode'}
-      </button>
+    <div className="page">
 
-      <div className="content-fade-in">
-        <header className="hero-box">
-          <h1>Dwight Fernandez</h1>
-          <p className="subtitle">Information Technology Student</p>
-        </header>
-
-        <section className="section">
-          <h2>Projects</h2>
-          <div className="projects-grid">
-            {projects.map((p, i) => (
-              <div key={i} className="project-card">
-                <div className="tags">{p.tech.map(t => <span key={t} className="tag">{t}</span>)}</div>
-                <h3>{p.title}</h3>
-                <p>{p.description}</p>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        <section className="section">
-          <h2>Guestbook</h2>
-          <div className="card">
-            <form onSubmit={handleSubmit}>
-              <input placeholder="Name" value={form.name} onChange={e => setForm({...form, name: e.target.value})} required />
-              <textarea placeholder="Message" value={form.message} onChange={e => setForm({...form, message: e.target.value})} required rows={3} />
-              <button type="submit" className="submit-btn" disabled={loading}>
-                {loading ? 'Sending...' : 'Sign Guestbook'}
-              </button>
-            </form>
-          </div>
-
-          <div className="message-list">
-            {entries.map(entry => (
-              <div key={entry.id} className="entry-card">
-                <div className="entry-header">
-                  <strong>{entry.name}</strong>
-                  <span className="date">{new Date(entry.created_at).toLocaleDateString()}</span>
-                </div>
-                <p>{entry.message}</p>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        <footer className="footer">
-          © 2026 Dwight Fernandez | Personal Website
-        </footer>
+      {/* SYSTEM BAR */}
+      <div className="system-bar">
+        <span>Dwight Portfolio</span>
+        <span>Status: Online</span>
       </div>
+
+      {/* HERO */}
+      <section className="hero">
+        <h1>Dwight Fernandez</h1>
+        <p className="hero-subtitle">Information Technology Student</p>
+        <p className="hero-description">
+          I build modern web applications using React, NestJS, and Supabase.
+          Passionate about sports, fitness, and continuous self-improvement.
+        </p>
+
+        <button
+          className="dark-toggle"
+          onClick={() => setDarkMode(!darkMode)}
+        >
+          {darkMode ? 'Light Mode' : 'Dark Mode'}
+        </button>
+      </section>
+
+      {/* ABOUT */}
+      <section className="about">
+        <h2>About Me</h2>
+        <p>
+          I'm an Information Technology student focused on building scalable,
+          maintainable web applications. I enjoy solving real-world problems,
+          improving system performance, and continuously developing both
+          technical skills and personal discipline.
+        </p>
+      </section>
+
+      {/* SKILLS */}
+      <section className="skills">
+        <h2>Tech Stack</h2>
+        <div className="skills-grid">
+          <div className="skill-card">React</div>
+          <div className="skill-card">NestJS</div>
+          <div className="skill-card">Supabase</div>
+          <div className="skill-card">PostgreSQL</div>
+        </div>
+      </section>
+
+      {/* GUESTBOOK */}
+      <section className="guestbook-section">
+        <h2 className="section-title">Visitor Messages</h2>
+
+        <p className="guest-count">
+          {entries.length} people signed the guestbook
+        </p>
+
+        <div className="card">
+          <form onSubmit={handleSubmit}>
+            <input
+              type="text"
+              placeholder="Your Name"
+              value={form.name}
+              onChange={e => setForm({ ...form, name: e.target.value })}
+              required
+            />
+
+            <textarea
+              placeholder="Leave a message..."
+              value={form.message}
+              onChange={e => setForm({ ...form, message: e.target.value })}
+              required
+              rows={3}
+            />
+
+            <div className="actions">
+              <button type="submit">
+                {loading ? 'Signing...' : 'Sign Guestbook'}
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <div className="entries">
+          {entries.map(entry => (
+            <div key={entry.id} className="entry-card">
+              <div className="entry-header">
+                <strong>{entry.name}</strong>
+                <span className="date">
+                  {new Date(entry.created_at).toLocaleDateString()}
+                </span>
+              </div>
+
+              <p>{entry.message}</p>
+
+              <button
+                className="like-btn"
+                onClick={() => handleLike(entry.id, entry.likes || 0)}
+              >
+                ❤️ {entry.likes || 0}
+              </button>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <footer className="footer">
+        © 2026 Dwight Fernandez | Personal Profile Website
+      </footer>
+
     </div>
   );
 }
