@@ -11,12 +11,12 @@ const TIMELINE = [
   },
   {
     date: 'Day 0',
-    title: 'The enjoyment has not been found',
+    title: 'The enjoyment has not been found every since (cope)',
     desc: 'Search continues. Compiler still running. No results yet.',
     highlight: true,
   },
   {
-    date: '2025 – 2026',
+    date: ' Feb of 2026',
     title: 'Built this portfolio',
     desc: 'Put real time and effort into crafting something that represents who I am as a developer.',
   },
