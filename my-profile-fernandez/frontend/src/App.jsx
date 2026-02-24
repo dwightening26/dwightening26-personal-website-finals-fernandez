@@ -4,14 +4,14 @@ import './App.css';
 
 const TIMELINE = [
   {
-    date: 'Aug 2023',
+    date: 'Aug 2024',
     title: 'Started BSIT',
     desc: 'Enrolled at Asia Pacific College, beginning my journey in Information Technology.',
   },
   {
-    date: 'Sep 18, 2025',
-    title: 'Kept building through the hardest day',
-    desc: 'Lost my father. Still showed up. Still built. This one is for him.',
+    date: 'Day 0',
+    title: 'The enjoyment has not been found',
+    desc: 'Search continues. Compiler still running. No results yet.',
     highlight: true,
   },
   {
