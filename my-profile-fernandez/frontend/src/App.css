@@ -5,19 +5,7 @@
   transition: all 0.3s ease;
 }
 
-.dark {
-  background: #111827;
-  color: white;
-}
-
-.dark .card,
-.dark .entry-card,
-.dark .skill-card {
-  background: #1f2937;
-  border-color: #374151;
-  color: white;
-}
-
+/* HERO */
 .hero {
   background: linear-gradient(135deg, #2563eb, #1e40af);
   color: white;
@@ -50,6 +38,7 @@
   color: #111827;
 }
 
+/* SKILLS */
 .skills {
   text-align: center;
   margin-bottom: 3rem;
@@ -74,6 +63,7 @@
   transform: translateY(-3px);
 }
 
+/* GUESTBOOK */
 .section-title {
   text-align: center;
   margin-bottom: 1rem;
@@ -147,19 +137,39 @@ button:hover {
   background: #fee2e2;
 }
 
+/* DARK MODE */
+.dark-body {
+  background-color: #111827;
+  color: white;
+}
+
+.dark-body .card,
+.dark-body .entry-card,
+.dark-body .skill-card {
+  background: #1f2937;
+  border-color: #374151;
+  color: white;
+}
+
+.dark-body input,
+.dark-body textarea {
+  background: #374151;
+  color: white;
+  border-color: #4b5563;
+}
+
+.dark-body .footer {
+  border-color: #374151;
+  color: #9ca3af;
+}
+
+/* Animation */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
-.footer {
-  text-align: center;
-  margin-top: 3rem;
-  padding-top: 2rem;
-  border-top: 1px solid #e5e7eb;
-  color: #6b7280;
-}
-
+/* Responsive */
 @media (max-width: 768px) {
   .hero h1 {
     font-size: 2.2rem;

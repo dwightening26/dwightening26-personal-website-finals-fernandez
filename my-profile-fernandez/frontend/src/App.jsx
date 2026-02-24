@@ -21,13 +21,21 @@ function App() {
     fetchEntries();
   }, []);
 
+  useEffect(() => {
+    if (darkMode) {
+      document.body.classList.add('dark-body');
+    } else {
+      document.body.classList.remove('dark-body');
+    }
+  }, [darkMode]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
 
     const { error } = await supabase
       .from('guestbook')
-      .insert([{ name: form.name, message: form.message }]);
+      .insert([{ name: form.name, message: form.message, likes: 0 }]);
 
     if (!error) {
       setForm({ name: '', message: '' });
@@ -47,7 +55,7 @@ function App() {
   };
 
   return (
-    <div className={`page ${darkMode ? 'dark' : ''}`}>
+    <div className="page">
 
       {/* HERO */}
       <section className="hero">
@@ -58,11 +66,11 @@ function App() {
           Passionate about sports, fitness, and continuous self-improvement.
         </p>
 
-        <button 
+        <button
           className="dark-toggle"
           onClick={() => setDarkMode(!darkMode)}
         >
-          {darkMode ? 'Light Mode' : 'Dark Mode'}
+          {darkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
         </button>
       </section>
 
@@ -113,7 +121,7 @@ function App() {
 
         <div className="entries">
           {entries.map(entry => (
-            <div key={entry.id} className="entry-card fade-in">
+            <div key={entry.id} className="entry-card">
               <div className="entry-header">
                 <strong>{entry.name}</strong>
                 <span className="date">
