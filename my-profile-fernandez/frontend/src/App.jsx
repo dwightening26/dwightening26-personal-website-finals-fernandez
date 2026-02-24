@@ -133,7 +133,6 @@ function App() {
         <p className="eyebrow">IT Student</p>
         <h1>
           Welcome to my personal profile.<br />
-          <span className="hero-italic">I'm Dwight. Still figuring it out, one commit at a time.</span>
         </h1>
         <p className="hero-description">
           Welcome. I'm Dwight. By day an IT student, by night a gamer and gym rat.
