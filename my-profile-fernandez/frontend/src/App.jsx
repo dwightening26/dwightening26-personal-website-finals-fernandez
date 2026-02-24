@@ -5,14 +5,16 @@ import './App.css';
 function App() {
   const [entries, setEntries] = useState([]);
   const [form, setForm] = useState({ name: '', message: '' });
+  const [darkMode, setDarkMode] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const fetchEntries = async () => {
-    const { data, error } = await supabase
+    const { data } = await supabase
       .from('guestbook')
       .select('*')
       .order('created_at', { ascending: false });
 
-    if (!error) setEntries(data || []);
+    setEntries(data || []);
   };
 
   useEffect(() => {
@@ -21,6 +23,7 @@ function App() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     const { error } = await supabase
       .from('guestbook')
@@ -30,10 +33,21 @@ function App() {
       setForm({ name: '', message: '' });
       fetchEntries();
     }
+
+    setLoading(false);
+  };
+
+  const handleLike = async (id, currentLikes) => {
+    await supabase
+      .from('guestbook')
+      .update({ likes: currentLikes + 1 })
+      .eq('id', id);
+
+    fetchEntries();
   };
 
   return (
-    <div className="page">
+    <div className={`page ${darkMode ? 'dark' : ''}`}>
 
       {/* HERO */}
       <section className="hero">
@@ -43,6 +57,13 @@ function App() {
           I build modern web applications using React, NestJS, and Supabase.
           Passionate about sports, fitness, and continuous self-improvement.
         </p>
+
+        <button 
+          className="dark-toggle"
+          onClick={() => setDarkMode(!darkMode)}
+        >
+          {darkMode ? 'Light Mode' : 'Dark Mode'}
+        </button>
       </section>
 
       {/* SKILLS */}
@@ -59,6 +80,10 @@ function App() {
       {/* GUESTBOOK */}
       <section className="guestbook-section">
         <h2 className="section-title">Guestbook</h2>
+
+        <p className="guest-count">
+          {entries.length} people signed the guestbook
+        </p>
 
         <div className="card">
           <form onSubmit={handleSubmit}>
@@ -79,21 +104,31 @@ function App() {
             />
 
             <div className="actions">
-              <button type="submit">Sign Guestbook</button>
+              <button type="submit">
+                {loading ? 'Signing...' : 'Sign Guestbook'}
+              </button>
             </div>
           </form>
         </div>
 
         <div className="entries">
           {entries.map(entry => (
-            <div key={entry.id} className="entry-card">
+            <div key={entry.id} className="entry-card fade-in">
               <div className="entry-header">
                 <strong>{entry.name}</strong>
                 <span className="date">
                   {new Date(entry.created_at).toLocaleDateString()}
                 </span>
               </div>
+
               <p>{entry.message}</p>
+
+              <button
+                className="like-btn"
+                onClick={() => handleLike(entry.id, entry.likes || 0)}
+              >
+                ❤️ {entry.likes || 0}
+              </button>
             </div>
           ))}
         </div>

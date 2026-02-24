@@ -2,9 +2,22 @@
   max-width: 1000px;
   margin: 0 auto;
   padding: 2rem;
+  transition: all 0.3s ease;
 }
 
-/* HERO */
+.dark {
+  background: #111827;
+  color: white;
+}
+
+.dark .card,
+.dark .entry-card,
+.dark .skill-card {
+  background: #1f2937;
+  border-color: #374151;
+  color: white;
+}
+
 .hero {
   background: linear-gradient(135deg, #2563eb, #1e40af);
   color: white;
@@ -22,7 +35,6 @@
 .hero-subtitle {
   margin-top: 0.5rem;
   font-size: 1.2rem;
-  opacity: 0.9;
 }
 
 .hero-description {
@@ -32,14 +44,15 @@
   margin-right: auto;
 }
 
-/* SKILLS */
+.dark-toggle {
+  margin-top: 1.5rem;
+  background: white;
+  color: #111827;
+}
+
 .skills {
   text-align: center;
   margin-bottom: 3rem;
-}
-
-.skills h2 {
-  margin-bottom: 1.5rem;
 }
 
 .skills-grid {
@@ -61,10 +74,16 @@
   transform: translateY(-3px);
 }
 
-/* GUESTBOOK */
 .section-title {
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
+}
+
+.guest-count {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+  color: #2563eb;
 }
 
 .card {
@@ -85,12 +104,6 @@ textarea {
   font-size: 1rem;
 }
 
-input:focus,
-textarea:focus {
-  outline: none;
-  border-color: #2563eb;
-}
-
 .actions {
   text-align: right;
 }
@@ -103,6 +116,7 @@ button {
   border-radius: 10px;
   font-weight: 600;
   cursor: pointer;
+  transition: 0.2s;
 }
 
 button:hover {
@@ -120,30 +134,32 @@ button:hover {
   padding: 1.5rem;
   border-radius: 16px;
   border: 1px solid #e5e7eb;
+  animation: fadeIn 0.4s ease;
 }
 
-.entry-header {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 0.75rem;
+.like-btn {
+  margin-top: 0.8rem;
+  background: #fef2f2;
+  color: #dc2626;
 }
 
-.date {
-  font-size: 0.85rem;
-  color: #6b7280;
+.like-btn:hover {
+  background: #fee2e2;
 }
 
-/* FOOTER */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 .footer {
   text-align: center;
   margin-top: 3rem;
   padding-top: 2rem;
   border-top: 1px solid #e5e7eb;
   color: #6b7280;
-  font-size: 0.9rem;
 }
 
-/* RESPONSIVE */
 @media (max-width: 768px) {
   .hero h1 {
     font-size: 2.2rem;
