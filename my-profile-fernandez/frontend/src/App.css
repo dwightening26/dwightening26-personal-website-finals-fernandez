@@ -1418,12 +1418,28 @@ body:not(.dark) .toast-error {
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 0.1rem;
-  max-height: 180px;
+  max-height: 200px;
   overflow-y: auto;
   border: 1px solid var(--border);
   border-radius: 10px;
-  overflow: hidden;
+  scroll-behavior: smooth;
+}
+
+.player-tracklist::-webkit-scrollbar {
+  width: 4px;
+}
+
+.player-tracklist::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.player-tracklist::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 99px;
+}
+
+.player-tracklist::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
 }
 
 .player-track-row {
