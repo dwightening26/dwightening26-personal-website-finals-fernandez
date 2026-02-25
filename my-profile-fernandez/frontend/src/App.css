@@ -616,18 +616,6 @@ a { text-decoration: none; color: inherit; }
   background: none;
 }
 
-.like-btn.liked {
-  border-color: #ef4444;
-  color: #ef4444;
-  opacity: 0.6;
-  cursor: default;
-}
-
-.like-btn.liked:hover {
-  opacity: 0.6;
-}
-
-
 /* ── ALBUMS ──────────────────────────────────────── */
 .albums-grid {
   display: grid;
@@ -640,7 +628,8 @@ a { text-decoration: none; color: inherit; }
   flex-direction: column;
   align-items: center;
   gap: 0.8rem;
-  cursor: default;
+  cursor: pointer;
+  text-decoration: none;
 }
 
 .vinyl-wrap {
@@ -738,6 +727,20 @@ a { text-decoration: none; color: inherit; }
   font-family: var(--serif);
   font-size: 0.95rem;
   color: var(--text-muted);
+}
+
+.footer-visitor {
+  font-size: 0.76rem;
+  color: var(--accent);
+  font-weight: 500;
+  letter-spacing: 0.03em;
+}
+
+.footer-visitor {
+  font-size: 0.76rem;
+  color: var(--accent);
+  font-weight: 500;
+  letter-spacing: 0.03em;
 }
 
 .footer-copy {

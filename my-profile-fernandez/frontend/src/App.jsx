@@ -43,11 +43,11 @@ const PROJECTS = [
 ];
 
 const ALBUMS = [
-  { title: 'Blonde',           artist: 'Frank Ocean',       cover: blondeCover },
-  { title: 'GNX',              artist: 'Kendrick Lamar',    cover: gnxCover },
-  { title: 'Freudian',         artist: 'Daniel Caesar',     cover: freudianCover },
-  { title: 'JESUS IS KING',    artist: 'Kanye West',        cover: jesusisskingCover },
-  { title: 'Apricot Princess', artist: 'Rex Orange County', cover: apricotCover },
+  { title: 'Blonde',           artist: 'Frank Ocean',       cover: blondeCover,       spotify: 'https://open.spotify.com/album/3mH6qwIy9crq0I9YQbOuDf?si=59b3e2e34c804261' },
+  { title: 'GNX',              artist: 'Kendrick Lamar',    cover: gnxCover,          spotify: 'https://open.spotify.com/album/0hvT3yIEysuuvkK73vgdcW?si=453acc8451ad4246' },
+  { title: 'Freudian',         artist: 'Daniel Caesar',     cover: freudianCover,     spotify: 'https://open.spotify.com/album/4E1XUBMTpLO7GpBzUo65Jp?si=KjqMCwFZSr6mRE5NYTp0Eg' },
+  { title: 'JESUS IS KING',    artist: 'Kanye West',        cover: jesusisskingCover, spotify: 'https://open.spotify.com/album/0FgZKfoU2Br5sHOfvZKTI9?si=45cbe3b5671c45bc' },
+  { title: 'Apricot Princess', artist: 'Rex Orange County', cover: apricotCover,      spotify: 'https://open.spotify.com/album/4DxNdQzm6cBYuSn4dCimmT?si=e4d9882065e843d7' },
 ];
 
 function useScrollReveal(options = {}) {
@@ -72,12 +72,12 @@ function useScrollReveal(options = {}) {
 }
 
 function App() {
-  const [entries, setEntries]       = useState([]);
-  const [form, setForm]             = useState({ name: '', message: '' });
-  const [darkMode, setDarkMode]     = useState(true);
-  const [loading, setLoading]       = useState(false);
+  const [entries, setEntries]           = useState([]);
+  const [form, setForm]                 = useState({ name: '', message: '' });
+  const [darkMode, setDarkMode]         = useState(true);
+  const [loading, setLoading]           = useState(false);
   const [visitorCount, setVisitorCount] = useState(null);
-  const [likedIds, setLikedIds]     = useState(() => {
+  const [likedIds, setLikedIds]         = useState(() => {
     const stored = localStorage.getItem('guestbook_likes');
     return stored ? JSON.parse(stored) : [];
   });
@@ -250,7 +250,14 @@ function App() {
         <h2 className="section-label">Favorite Albums</h2>
         <div className="albums-grid">
           {ALBUMS.map((album, i) => (
-            <div key={i} className="vinyl-card">
+            <a
+              key={i}
+              className="vinyl-card"
+              href={album.spotify}
+              target="_blank"
+              rel="noreferrer"
+              style={{ transitionDelay: `${i * 80}ms` }}
+            >
               <div className="vinyl-wrap">
                 <div className="vinyl-record">
                   <img src={album.cover} alt={album.title} className="vinyl-cover" />
@@ -261,7 +268,7 @@ function App() {
                 <p className="vinyl-album">{album.title}</p>
                 <p className="vinyl-artist">{album.artist}</p>
               </div>
-            </div>
+            </a>
           ))}
         </div>
       </section>
