@@ -24,7 +24,7 @@ import song4Audio from './Happiness.mp3';
 import song5Audio from './SUPERPOSITION (feat. John Mayer).mp3';
 import song6Audio from './Who Knows.mp3';
 import song1Cover from './Dear April (Side A - Acoustic)_cover.png';  
-import song2Cover from './IV OF SPADES - Dulo Ng Hangganan_cover.png';
+import song2Cover from './Dulo Ng Hangganan_cover.png';
 import song3Cover from './Lovers Rock_cover.png';
 import song4Cover from './Happiness_cover.png';
 import song5Cover from './SUPERPOSITION (feat. John Mayer)_coverr.png';
