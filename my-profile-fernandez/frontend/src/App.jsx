@@ -27,6 +27,21 @@ const TIMELINE = [
   },
 ];
 
+const SKILLS = [
+  {
+    category: 'Languages',
+    tags: ['JavaScript', 'HTML', 'CSS', 'SQL', 'Python'],
+  },
+  {
+    category: 'Frontend',
+    tags: ['React', 'Tailwind CSS', 'Responsive Design'],
+  },
+  {
+    category: 'Tools & Platforms',
+    tags: ['Supabase', 'PostgreSQL', 'Git', 'GitHub', 'VS Code', 'Figma'],
+  },
+];
+
 const PROJECTS = [
   {
     name: 'Guestbook App',
@@ -91,7 +106,8 @@ function App() {
     return () => window.removeEventListener('mousemove', move);
   }, []);
 
-  const timelineRef = useScrollReveal(); // ← FIXED: was missing
+  const timelineRef = useScrollReveal();
+  const skillsRef   = useScrollReveal();
   const projectsRef = useScrollReveal();
   const aboutRef    = useScrollReveal();
   const albumsRef   = useScrollReveal();
@@ -226,6 +242,26 @@ function App() {
               <div className="timeline-right">
                 <h3 className="timeline-title">{item.title}</h3>
                 <p className="timeline-desc">{item.desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* DIVIDER */}
+      <div className="section-divider"><span className="section-divider-dot" /></div>
+
+      {/* SKILLS */}
+      <section ref={skillsRef} className="section reveal">
+        <h2 className="section-label">Tech Stack</h2>
+        <div className="skills-section">
+          {SKILLS.map((group, i) => (
+            <div key={i} className="skills-group">
+              <span className="skills-category">{group.category}</span>
+              <div className="skills-wrap">
+                {group.tags.map(tag => (
+                  <span key={tag} className="skill-tag">{tag}</span>
+                ))}
               </div>
             </div>
           ))}

@@ -414,6 +414,28 @@ body.dark::before {
 }
 
 /* ── SKILLS ──────────────────────────────────────── */
+.skills-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+}
+
+.skills-group {
+  display: grid;
+  grid-template-columns: 130px 1fr;
+  gap: 0 1.5rem;
+  align-items: start;
+}
+
+.skills-category {
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  padding-top: 0.42rem;
+}
+
 .skills-wrap {
   display: flex;
   flex-wrap: wrap;
@@ -429,6 +451,7 @@ body.dark::before {
   font-weight: 500;
   color: var(--text);
   cursor: default;
+  transition: border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
 }
 
 .skill-tag:hover {
@@ -673,6 +696,7 @@ body.dark::before {
   opacity: 1;
   padding: 1.5rem 1.5rem 0;
 }
+
 .about-text {
   font-size: 1.05rem;
   line-height: 1.8;
@@ -901,13 +925,6 @@ body.dark::before {
   letter-spacing: 0.03em;
 }
 
-.footer-visitor {
-  font-size: 0.76rem;
-  color: var(--accent);
-  font-weight: 500;
-  letter-spacing: 0.03em;
-}
-
 .footer-copy {
   font-size: 0.76rem;
   color: var(--text-muted);
@@ -1022,6 +1039,7 @@ body.dark::before {
   .project-row   { flex-direction: column; }
   .project-arrow { display: none; }
   .footer        { flex-direction: column; gap: 0.3rem; }
+  .skills-group  { grid-template-columns: 1fr; gap: 0.6rem; }
 }
 
 /* Respect reduced motion preferences */
