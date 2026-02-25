@@ -1,10 +1,3 @@
-// AI-ASSISTED NOTICE:
-// 1. ChatGPT (OpenAI) — component structure, layout, CSS styling, Supabase integration, debugging
-//    Conversation: https://chatgpt.com/share/699dae18-15ec-8012-af5f-0f858686f5bb
-// 2. Claude (Anthropic) — scroll-reveal logic, CSS animations, Resources section
-//    Reference: https://claude.ai
-// Human-authored: all personal content (timeline, projects, albums, gallery, bio)
-
 import { useEffect, useState, useRef } from 'react';
 import { supabase } from './supabaseClient';
 import avatar            from './profile.png';
@@ -29,17 +22,18 @@ import song3Audio from './Lovers Rock.mp3';
 import song4Audio from './Happiness.mp3';
 import song5Audio from './SUPERPOSITION (feat. John Mayer).mp3';
 import song6Audio from './Who Knows.mp3';
+import song7Audio from './Lover, You Should Have Come Over.mp3';
+import song8Audio from './Last Night on Earth.mp3';
 import song1Cover from './Dear April (Side A - Acoustic)_cover.png';
 import song2Cover from './Dulo Ng Hangganan_cover.png';
 import song3Cover from './Lovers Rock_cover.png';
 import song4Cover from './Happiness_cover.png';
 import song5Cover from './SUPERPOSITION (feat. John Mayer)_cover.png';
 import song6Cover from './Who Knows_cover.png';
+import song7Cover from './Lover, You Should Have Come Over_cover.png';
+import song8Cover from './Last Night on Earth_cover.png';
 import './App.css';
 
-// ─── MUSIC PLAYER TRACKS ─────────────────────────────────────────────────────
-// To add a song: import the .mp3 and cover image above, then add an entry below.
-// ─────────────────────────────────────────────────────────────────────────────
 const TRACKS = [
   { title: 'Dear April (Side A - Acoustic)',    artist: 'Frank Ocean',       cover: song1Cover, audio: song1Audio },
   { title: 'Dulo Ng Hangganan',                 artist: 'IV OF SPADES',      cover: song2Cover, audio: song2Audio },
@@ -47,6 +41,9 @@ const TRACKS = [
   { title: 'Happiness',                         artist: 'Rex Orange County', cover: song4Cover, audio: song4Audio },
   { title: 'SUPERPOSITION (feat. John Mayer)',  artist: 'Daniel Caesar',     cover: song5Cover, audio: song5Audio },
   { title: 'Who Knows',                         artist: 'Daniel Caesar',     cover: song6Cover, audio: song6Audio },
+  { title: 'Lover, You Should Have Come Over',  artist: 'Jeff Buckley',     cover: song7Cover, audio: song7Audio },
+  { title: 'Last Night on Earth',               artist: 'Green Day',      cover: song8Cover, audio: song8Audio },
+  
 ];
 
 const TIMELINE = [
@@ -159,7 +156,7 @@ function App() {
     return stored ? JSON.parse(stored) : [];
   });
 
-  // ── MUSIC PLAYER ────────────────────────────────────────────────────────────
+  
   const [playerIndex, setPlayerIndex] = useState(0);
   const [isPlaying, setIsPlaying]     = useState(false);
   const [progress, setProgress]       = useState(0);
@@ -222,8 +219,7 @@ function App() {
     return `${Math.floor(secs / 60)}:${Math.floor(secs % 60).toString().padStart(2, '0')}`;
   };
   const currentTime = audioRef.current ? audioRef.current.currentTime : 0;
-  // ────────────────────────────────────────────────────────────────────────────
-
+  
   const [cursor, setCursor] = useState({ x: -999, y: -999 });
 
   useEffect(() => { const m = (e) => setCursor({ x: e.clientX, y: e.clientY }); window.addEventListener('mousemove', m); return () => window.removeEventListener('mousemove', m); }, []);

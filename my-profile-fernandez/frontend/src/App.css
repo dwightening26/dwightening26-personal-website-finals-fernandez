@@ -1,6 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap');
 
-/* ── TOKENS ─────────────────────────────────────── */
 :root {
   --bg:           #F7F5F2;
   --surface:      #FFFFFF;
@@ -30,10 +29,8 @@ html.dark,
   --accent-soft:  #1A2240;
 }
 
-/* ── RESET ───────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-/* ── BASE ────────────────────────────────────────── */
 html,
 body,
 #root {
@@ -55,7 +52,6 @@ body {
 
 a { text-decoration: none; color: inherit; }
 
-/* ── SCROLL REVEAL ───────────────────────────────── */
 .reveal {
   opacity: 0;
   transform: translateY(24px);
@@ -89,14 +85,12 @@ a { text-decoration: none; color: inherit; }
   transform: translateX(0);
 }
 
-/* ── LAYOUT ──────────────────────────────────────── */
 .page {
   max-width: 860px;
   margin: 0 auto;
   padding: 0 2rem 6rem;
 }
 
-/* ── NAV ─────────────────────────────────────────── */
 .nav {
   display: flex;
   justify-content: space-between;
@@ -180,7 +174,6 @@ a { text-decoration: none; color: inherit; }
   background: none;
 }
 
-/* ── HERO ────────────────────────────────────────── */
 .hero {
   margin-bottom: 6rem;
   animation: fadeUp 0.6s ease both;
@@ -237,7 +230,6 @@ a { text-decoration: none; color: inherit; }
   animation-delay: 0.38s;
 }
 
-/* ── BUTTONS ─────────────────────────────────────── */
 .btn-primary {
   display: inline-flex;
   align-items: center;
@@ -279,7 +271,6 @@ a { text-decoration: none; color: inherit; }
   transform: translateY(-1px);
 }
 
-/* ── SOCIAL LINKS ────────────────────────────────── */
 .social-links {
   display: flex;
   gap: 0.75rem;
@@ -315,7 +306,6 @@ a { text-decoration: none; color: inherit; }
   background: var(--accent-soft);
 }
 
-/* ── SECTION DIVIDER ─────────────────────────────── */
 .section-divider {
   display: flex;
   align-items: center;
@@ -340,7 +330,6 @@ a { text-decoration: none; color: inherit; }
   flex-shrink: 0;
 }
 
-/* ── CURSOR GLOW ─────────────────────────────────── */
 .cursor-glow {
   pointer-events: none;
   position: fixed;
@@ -358,7 +347,6 @@ body:not(.dark) .cursor-glow {
   background: radial-gradient(circle, rgba(45, 91, 227, 0.05) 0%, transparent 70%);
 }
 
-/* ── ANIMATED GRADIENT BG ────────────────────────── */
 body.dark::before {
   content: '';
   position: fixed;
@@ -377,7 +365,6 @@ body.dark::before {
   100% { background-position: 50% 90%, 50% 10%, 20% 50%; }
 }
 
-/* ── CARD HOVER GLOW ─────────────────────────────── */
 .projects-list:hover {
   box-shadow: 0 0 0 1px var(--accent), 0 0 20px rgba(90, 130, 245, 0.08);
   transition: box-shadow 0.3s ease;
@@ -397,7 +384,6 @@ body.dark::before {
   transition: box-shadow 0.3s ease;
 }
 
-/* ── SECTIONS ────────────────────────────────────── */
 .section {
   margin-bottom: 5rem;
 }
@@ -411,7 +397,6 @@ body.dark::before {
   margin-bottom: 1.8rem;
 }
 
-/* ── SKILLS ──────────────────────────────────────── */
 .skills-wrap {
   display: flex;
   flex-wrap: wrap;
@@ -435,7 +420,6 @@ body.dark::before {
   transform: translateY(-2px);
 }
 
-/* ── TIMELINE ────────────────────────────────────── */
 .timeline {
   display: flex;
   flex-direction: column;
@@ -542,7 +526,6 @@ body.dark::before {
   transform: translateY(0);
 }
 
-/* ── PROJECTS ────────────────────────────────────── */
 .projects-list {
   border: 1px solid var(--border);
   border-radius: 14px;
@@ -622,7 +605,6 @@ body.dark::before {
   transform: translate(2px, -2px);
 }
 
-/* ── ABOUT ───────────────────────────────────────── */
 .about-label {
   margin: 0;
 }
@@ -679,7 +661,6 @@ body.dark::before {
   max-width: 600px;
 }
 
-/* ── GUESTBOOK ───────────────────────────────────── */
 .guestbook-form {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -779,7 +760,6 @@ body.dark::before {
   background: none;
 }
 
-/* ── TOAST NOTIFICATION ──────────────────────────── */
 .toast {
   position: fixed;
   top: 1.5rem;
@@ -826,7 +806,6 @@ body:not(.dark) .toast-error {
   border: 1px solid #fca5a5;
 }
 
-/* ── ALBUMS ──────────────────────────────────────── */
 .albums-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
@@ -920,7 +899,6 @@ body:not(.dark) .toast-error {
   transform: translateY(0);
 }
 
-/* ── GALLERY ─────────────────────────────────────── */
 .gallery-tabs {
   display: flex;
   gap: 0.5rem;
@@ -992,7 +970,6 @@ body:not(.dark) .toast-error {
 .masonry-item:hover .masonry-overlay { opacity: 1; }
 .masonry-item:hover .masonry-img     { transform: scale(1.03); }
 
-/* ── LIGHTBOX ────────────────────────────────────── */
 .lightbox {
   position: fixed;
   inset: 0;
@@ -1067,7 +1044,6 @@ body:not(.dark) .toast-error {
   .lightbox-next { right: 0.5rem; }
 }
 
-/* ── RESOURCES & CREDITS ─────────────────────────── */
 .resources-list {
   border: 1px solid var(--border);
   border-radius: 14px;
@@ -1135,7 +1111,6 @@ body:not(.dark) .toast-error {
   opacity: 0.75;
 }
 
-/* ── FOOTER ──────────────────────────────────────── */
 .footer {
   display: flex;
   justify-content: space-between;
@@ -1167,7 +1142,6 @@ body:not(.dark) .toast-error {
   text-transform: uppercase;
 }
 
-/* ── SHARED: EQUALIZER BARS (used inside music player) ── */
 .now-playing-bars {
   display: flex;
   align-items: flex-end;
@@ -1194,7 +1168,6 @@ body:not(.dark) .toast-error {
   50%       { transform: scaleY(1); }
 }
 
-/* ── MUSIC PLAYER ────────────────────────────────── */
 .music-player {
   position: fixed;
   bottom: 1.5rem;
@@ -1216,7 +1189,6 @@ body:not(.dark) .toast-error {
   box-shadow: 0 12px 40px rgba(90,130,245,0.15);
 }
 
-/* COLLAPSED ROW */
 .player-collapsed {
   display: flex;
   align-items: center;
@@ -1278,7 +1250,6 @@ body:not(.dark) .toast-error {
   opacity: 0.5;
 }
 
-/* EXPANDED PANEL */
 .player-expanded {
   padding: 0 1rem 1rem;
   display: flex;
@@ -1432,7 +1403,6 @@ body:not(.dark) .toast-error {
   background: var(--accent);
 }
 
-/* VOLUME */
 .player-volume {
   display: flex;
   align-items: center;
@@ -1503,7 +1473,6 @@ body:not(.dark) .toast-error {
   flex-shrink: 0;
 }
 
-/* TRACK LIST */
 .player-tracklist {
   width: 100%;
   display: flex;
@@ -1598,7 +1567,6 @@ body:not(.dark) .toast-error {
   width: 2px;
 }
 
-/* SPOTIFY LINK */
 .player-spotify-link {
   font-size: 0.72rem;
   color: var(--accent);
@@ -1625,7 +1593,6 @@ body:not(.dark) .toast-error {
   }
 }
 
-/* ── RESPONSIVE ──────────────────────────────────── */
 @media (max-width: 640px) {
   .page          { padding: 0 1.2rem 4rem; }
   .nav           { margin-bottom: 3.5rem; }
