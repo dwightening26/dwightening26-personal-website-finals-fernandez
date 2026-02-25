@@ -415,7 +415,6 @@ body.dark::before {
   gap: 0.6rem;
 }
 
-/* icon pill */
 .skill-icon {
   position: relative;
   display: flex;
@@ -441,7 +440,6 @@ body.dark::before {
   flex-shrink: 0;
 }
 
-/* tooltip bubble */
 .skill-icon::after {
   content: attr(data-tooltip);
   position: absolute;
@@ -463,7 +461,6 @@ body.dark::before {
   z-index: 10;
 }
 
-/* tooltip arrow */
 .skill-icon::before {
   content: '';
   position: absolute;
@@ -491,7 +488,6 @@ body.dark::before {
   transform: translateX(-50%) translateY(0);
 }
 
-/* staggered scroll reveal */
 .reveal .skill-icon {
   opacity: 0;
   transform: translateY(10px) scale(0.9);
@@ -1245,6 +1241,8 @@ body:not(.dark) .toast-error {
   text-transform: uppercase;
 }
 
+/* ─── MUSIC PLAYER ──────────────────────────────────────────────────── */
+
 .now-playing-bars {
   display: flex;
   align-items: flex-end;
@@ -1301,18 +1299,24 @@ body:not(.dark) .toast-error {
   user-select: none;
 }
 
+/* Collapsed mini cover */
 .player-cover {
   width: 36px;
   height: 36px;
   border-radius: 50%;
   object-fit: cover;
   flex-shrink: 0;
-  transition: box-shadow 0.3s ease;
+  transition: box-shadow 0.3s ease, opacity 0.25s ease, transform 0.25s ease;
 }
 
 .player-cover.spinning {
   animation: spin 4s linear infinite;
   box-shadow: 0 0 0 2px var(--accent);
+}
+
+.player-cover.track-changing {
+  opacity: 0;
+  transform: scale(0.85);
 }
 
 .player-info {
@@ -1367,6 +1371,7 @@ body:not(.dark) .toast-error {
   to   { opacity: 1; transform: translateY(0); }
 }
 
+/* Expanded big cover */
 .player-big-cover {
   width: 140px;
   height: 140px;
@@ -1374,7 +1379,7 @@ body:not(.dark) .toast-error {
   object-fit: cover;
   box-shadow: 0 8px 30px rgba(0,0,0,0.3);
   margin-top: 0.25rem;
-  transition: box-shadow 0.3s ease;
+  transition: box-shadow 0.3s ease, opacity 0.3s ease, transform 0.3s ease;
 }
 
 .player-big-cover.spinning {
@@ -1382,8 +1387,20 @@ body:not(.dark) .toast-error {
   box-shadow: 0 8px 30px rgba(0,0,0,0.3), 0 0 0 3px var(--accent);
 }
 
+.player-big-cover.track-changing {
+  opacity: 0;
+  transform: scale(0.88) rotate(-6deg);
+}
+
+/* Track info with fade transition */
 .player-expanded-info {
   text-align: center;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.player-expanded-info.track-changing {
+  opacity: 0;
+  transform: translateY(6px);
 }
 
 .player-expanded-track {
@@ -1587,22 +1604,10 @@ body:not(.dark) .toast-error {
   scroll-behavior: smooth;
 }
 
-.player-tracklist::-webkit-scrollbar {
-  width: 4px;
-}
-
-.player-tracklist::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.player-tracklist::-webkit-scrollbar-thumb {
-  background: var(--border);
-  border-radius: 99px;
-}
-
-.player-tracklist::-webkit-scrollbar-thumb:hover {
-  background: var(--accent);
-}
+.player-tracklist::-webkit-scrollbar { width: 4px; }
+.player-tracklist::-webkit-scrollbar-track { background: transparent; }
+.player-tracklist::-webkit-scrollbar-thumb { background: var(--border); border-radius: 99px; }
+.player-tracklist::-webkit-scrollbar-thumb:hover { background: var(--accent); }
 
 .player-track-row {
   display: flex;
@@ -1619,17 +1624,9 @@ body:not(.dark) .toast-error {
   font-family: var(--sans);
 }
 
-.player-track-row:last-child {
-  border-bottom: none;
-}
-
-.player-track-row:hover {
-  background: var(--surface-2);
-}
-
-.player-track-row.active {
-  background: var(--accent-soft);
-}
+.player-track-row:last-child { border-bottom: none; }
+.player-track-row:hover { background: var(--surface-2); }
+.player-track-row.active { background: var(--accent-soft); }
 
 .player-track-thumb {
   width: 28px;
@@ -1678,9 +1675,7 @@ body:not(.dark) .toast-error {
   transition: opacity 0.2s ease;
 }
 
-.player-spotify-link:hover {
-  opacity: 0.7;
-}
+.player-spotify-link:hover { opacity: 0.7; }
 
 @keyframes slideUp {
   from { opacity: 0; transform: translateY(16px); }
@@ -1709,7 +1704,6 @@ body:not(.dark) .toast-error {
   .toast         { font-size: 0.8rem; padding: 0.65rem 1rem; white-space: normal; text-align: center; max-width: calc(100vw - 2rem); }
 }
 
-/* Respect reduced motion preferences */
 @media (prefers-reduced-motion: reduce) {
   .reveal,
   .reveal .skill-icon,

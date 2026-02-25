@@ -43,10 +43,9 @@ const TRACKS = [
   { title: 'Happiness',                         artist: 'Rex Orange County', cover: song4Cover, audio: song4Audio },
   { title: 'SUPERPOSITION (feat. John Mayer)',  artist: 'Daniel Caesar',     cover: song5Cover, audio: song5Audio },
   { title: 'Who Knows',                         artist: 'Daniel Caesar',     cover: song6Cover, audio: song6Audio },
-  { title: 'Lover, You Should Have Come Over',  artist: 'Jeff Buckley',     cover: song7Cover, audio: song7Audio },
-  { title: 'Last Night on Earth',               artist: 'Green Day',      cover: song8Cover, audio: song8Audio },
-  { title: 'About You',                         artist: 'The 1975',      cover: song9Cover, audio: song9Audio },
-  
+  { title: 'Lover, You Should Have Come Over',  artist: 'Jeff Buckley',      cover: song7Cover, audio: song7Audio },
+  { title: 'Last Night on Earth',               artist: 'Green Day',         cover: song8Cover, audio: song8Audio },
+  { title: 'About You',                         artist: 'The 1975',          cover: song9Cover, audio: song9Audio },
 ];
 
 const TIMELINE = [
@@ -159,7 +158,6 @@ function App() {
     return stored ? JSON.parse(stored) : [];
   });
 
-  
   const [playerIndex, setPlayerIndex] = useState(0);
   const [isPlaying, setIsPlaying]     = useState(false);
   const [progress, setProgress]       = useState(0);
@@ -168,6 +166,7 @@ function App() {
   const [volume, setVolume]           = useState(1);
   const [muted, setMuted]             = useState(false);
   const [shuffle, setShuffle]         = useState(false);
+  const [isChanging, setIsChanging]   = useState(false);
   const audioRef                      = useRef(null);
 
   const currentTrack = TRACKS[playerIndex];
@@ -177,6 +176,16 @@ function App() {
     let next;
     do { next = Math.floor(Math.random() * TRACKS.length); } while (next === current);
     return next;
+  };
+
+  // Triggers the fade-out, swaps track, then fades back in
+  const changeTrack = (indexFn) => {
+    setIsChanging(true);
+    setTimeout(() => {
+      setPlayerIndex(indexFn);
+      setProgress(0);
+      setIsChanging(false);
+    }, 280);
   };
 
   useEffect(() => {
@@ -195,8 +204,8 @@ function App() {
   }, [isPlaying]);
 
   const togglePlay = () => setIsPlaying(p => !p);
-  const prevTrack  = () => { setPlayerIndex(i => (i - 1 + TRACKS.length) % TRACKS.length); setProgress(0); };
-  const nextTrack  = () => { setPlayerIndex(i => getNextIndex(i)); setProgress(0); };
+  const prevTrack  = () => changeTrack(i => (i - 1 + TRACKS.length) % TRACKS.length);
+  const nextTrack  = () => changeTrack(i => getNextIndex(i));
 
   const handleTimeUpdate     = () => { const a = audioRef.current; if (!a || !a.duration) return; setProgress((a.currentTime / a.duration) * 100); };
   const handleLoadedMetadata = () => setDuration(audioRef.current?.duration || 0);
@@ -222,7 +231,7 @@ function App() {
     return `${Math.floor(secs / 60)}:${Math.floor(secs % 60).toString().padStart(2, '0')}`;
   };
   const currentTime = audioRef.current ? audioRef.current.currentTime : 0;
-  
+
   const [cursor, setCursor] = useState({ x: -999, y: -999 });
 
   useEffect(() => { const m = (e) => setCursor({ x: e.clientX, y: e.clientY }); window.addEventListener('mousemove', m); return () => window.removeEventListener('mousemove', m); }, []);
@@ -464,7 +473,11 @@ function App() {
       <div className={`music-player ${isExpanded ? 'expanded' : ''}`}>
 
         <div className="player-collapsed" onClick={() => setIsExpanded(e => !e)}>
-          <img src={currentTrack.cover} alt={currentTrack.title} className={`player-cover ${isPlaying ? 'spinning' : ''}`} />
+          <img
+            src={currentTrack.cover}
+            alt={currentTrack.title}
+            className={`player-cover ${isPlaying ? 'spinning' : ''} ${isChanging ? 'track-changing' : ''}`}
+          />
           <div className="player-info">
             <span className="player-label">{isPlaying ? 'Now Playing' : 'Paused'}</span>
             <span className="player-track">{currentTrack.title}</span>
@@ -476,9 +489,13 @@ function App() {
         {isExpanded && (
           <div className="player-expanded">
 
-            <img src={currentTrack.cover} alt={currentTrack.title} className={`player-big-cover ${isPlaying ? 'spinning' : ''}`} />
+            <img
+              src={currentTrack.cover}
+              alt={currentTrack.title}
+              className={`player-big-cover ${isPlaying ? 'spinning' : ''} ${isChanging ? 'track-changing' : ''}`}
+            />
 
-            <div className="player-expanded-info">
+            <div className={`player-expanded-info ${isChanging ? 'track-changing' : ''}`}>
               <p className="player-expanded-track">{currentTrack.title}</p>
               <p className="player-expanded-artist">{currentTrack.artist}</p>
             </div>
@@ -518,7 +535,11 @@ function App() {
 
             <div className="player-tracklist">
               {TRACKS.map((track, i) => (
-                <button key={i} className={`player-track-row ${i === playerIndex ? 'active' : ''}`} onClick={() => { setPlayerIndex(i); setProgress(0); setIsPlaying(true); }}>
+                <button
+                  key={i}
+                  className={`player-track-row ${i === playerIndex ? 'active' : ''}`}
+                  onClick={() => { changeTrack(() => i); setIsPlaying(true); }}
+                >
                   <img src={track.cover} alt={track.title} className="player-track-thumb" />
                   <div className="player-track-meta">
                     <span className="player-track-name">{track.title}</span>
