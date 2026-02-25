@@ -24,6 +24,7 @@ import song5Audio from './SUPERPOSITION (feat. John Mayer).mp3';
 import song6Audio from './Who Knows.mp3';
 import song7Audio from './Lover, You Should Have Come Over.mp3';
 import song8Audio from './Last Night on Earth.mp3';
+import song9Audio from './About You.mp3';
 import song1Cover from './Dear April (Side A - Acoustic)_cover.png';
 import song2Cover from './Dulo Ng Hangganan_cover.png';
 import song3Cover from './Lovers Rock_cover.png';
@@ -32,6 +33,7 @@ import song5Cover from './SUPERPOSITION (feat. John Mayer)_cover.png';
 import song6Cover from './Who Knows_cover.png';
 import song7Cover from './Lover, You Should Have Come Over_cover.png';
 import song8Cover from './Last Night on Earth_cover.png';
+import song9Cover from './About You_cover.png';
 import './App.css';
 
 const TRACKS = [
