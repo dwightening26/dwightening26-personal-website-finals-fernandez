@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef, useCallback } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { supabase } from './supabaseClient';
 import avatar            from './profile.png';
 import blondeCover       from './blonde.png';
@@ -129,110 +129,6 @@ const RESOURCES = [
   ]},
 ];
 
-// ─── TEXT SCRAMBLE HOOK ──────────────────────────────────────────────
-const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-
-function useScramble(text, trigger) {
-  const [display, setDisplay] = useState(text);
-  const frameRef = useRef(null);
-
-  useEffect(() => {
-    if (!trigger) return;
-    let iteration = 0;
-    const totalFrames = text.length * 3;
-    cancelAnimationFrame(frameRef.current);
-
-    const animate = () => {
-      setDisplay(
-        text.split('').map((char, i) => {
-          if (char === ' ') return ' ';
-          if (i < iteration / 3) return text[i];
-          return CHARS[Math.floor(Math.random() * CHARS.length)];
-        }).join('')
-      );
-      iteration++;
-      if (iteration <= totalFrames) {
-        frameRef.current = requestAnimationFrame(animate);
-      } else {
-        setDisplay(text);
-      }
-    };
-
-    frameRef.current = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(frameRef.current);
-  }, [trigger, text]);
-
-  return display;
-}
-
-// ─── SCRAMBLE LABEL COMPONENT ────────────────────────────────────────
-function ScrambleLabel({ text, className }) {
-  const [triggered, setTriggered] = useState(false);
-  const ref = useRef(null);
-  const display = useScramble(text, triggered);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const observer = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) {
-        setTriggered(true);
-        observer.unobserve(el);
-      }
-    }, { threshold: 0.5 });
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
-
-  return <h2 ref={ref} className={className}>{display}</h2>;
-}
-
-// ─── SPOTLIGHT PROJECT ROW ───────────────────────────────────────────
-function SpotlightRow({ project, index }) {
-  const rowRef = useRef(null);
-
-  const handleMouseMove = (e) => {
-    const el = rowRef.current;
-    if (!el) return;
-    const rect = el.getBoundingClientRect();
-    const x = ((e.clientX - rect.left) / rect.width) * 100;
-    const y = ((e.clientY - rect.top) / rect.height) * 100;
-    el.style.setProperty('--mouse-x', `${x}%`);
-    el.style.setProperty('--mouse-y', `${y}%`);
-  };
-
-  const handleMouseLeave = () => {
-    const el = rowRef.current;
-    if (el) {
-      el.style.setProperty('--mouse-x', `50%`);
-      el.style.setProperty('--mouse-y', `50%`);
-    }
-  };
-
-  return (
-    <a
-      ref={rowRef}
-      className="project-row spotlight-row"
-      href={project.href}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-    >
-      <div className="project-left">
-        <span className="project-num">0{index + 1}</span>
-        <div>
-          <h3 className="project-name">{project.name}</h3>
-          <p className="project-desc">{project.desc}</p>
-          <div className="project-tags">
-            {project.tags.map(tag => (<span key={tag} className="project-tag">{tag}</span>))}
-          </div>
-        </div>
-      </div>
-      <span className="project-arrow">↗</span>
-    </a>
-  );
-}
-
-// ─── SCROLL REVEAL HOOK ──────────────────────────────────────────────
 function useScrollReveal(options = {}) {
   const ref = useRef(null);
   useEffect(() => {
@@ -245,22 +141,6 @@ function useScrollReveal(options = {}) {
     return () => observer.disconnect();
   }, []);
   return ref;
-}
-
-// ─── CLICK RIPPLE ────────────────────────────────────────────────────
-function useClickRipple() {
-  useEffect(() => {
-    const handler = (e) => {
-      const ripple = document.createElement('span');
-      ripple.className = 'click-ripple';
-      ripple.style.left = e.clientX + 'px';
-      ripple.style.top  = e.clientY + 'px';
-      document.body.appendChild(ripple);
-      ripple.addEventListener('animationend', () => ripple.remove());
-    };
-    window.addEventListener('click', handler);
-    return () => window.removeEventListener('click', handler);
-  }, []);
 }
 
 function App() {
@@ -289,36 +169,6 @@ function App() {
   const [isChanging, setIsChanging]   = useState(false);
   const audioRef                      = useRef(null);
 
-  // ── Cursor: main glow + trailing dot ────────────────────────────────
-  const [cursor, setCursor]       = useState({ x: -999, y: -999 });
-  const [dotPos, setDotPos]       = useState({ x: -999, y: -999 });
-  const dotTarget                 = useRef({ x: -999, y: -999 });
-  const dotCurrent                = useRef({ x: -999, y: -999 });
-  const rafRef                    = useRef(null);
-
-  useEffect(() => {
-    const animateDot = () => {
-      dotCurrent.current.x += (dotTarget.current.x - dotCurrent.current.x) * 0.12;
-      dotCurrent.current.y += (dotTarget.current.y - dotCurrent.current.y) * 0.12;
-      setDotPos({ x: dotCurrent.current.x, y: dotCurrent.current.y });
-      rafRef.current = requestAnimationFrame(animateDot);
-    };
-    rafRef.current = requestAnimationFrame(animateDot);
-    return () => cancelAnimationFrame(rafRef.current);
-  }, []);
-
-  useEffect(() => {
-    const m = (e) => {
-      setCursor({ x: e.clientX, y: e.clientY });
-      dotTarget.current = { x: e.clientX, y: e.clientY };
-    };
-    window.addEventListener('mousemove', m);
-    return () => window.removeEventListener('mousemove', m);
-  }, []);
-
-  // ── Click ripple ─────────────────────────────────────────────────────
-  useClickRipple();
-
   const currentTrack = TRACKS[playerIndex];
 
   const getNextIndex = (current) => {
@@ -328,6 +178,7 @@ function App() {
     return next;
   };
 
+  // Triggers the fade-out, swaps track, then fades back in
   const changeTrack = (indexFn) => {
     setIsChanging(true);
     setTimeout(() => {
@@ -381,6 +232,9 @@ function App() {
   };
   const currentTime = audioRef.current ? audioRef.current.currentTime : 0;
 
+  const [cursor, setCursor] = useState({ x: -999, y: -999 });
+
+  useEffect(() => { const m = (e) => setCursor({ x: e.clientX, y: e.clientY }); window.addEventListener('mousemove', m); return () => window.removeEventListener('mousemove', m); }, []);
   useEffect(() => { const k = (e) => { if (e.key === 'Escape') setLightbox(null); }; window.addEventListener('keydown', k); return () => window.removeEventListener('keydown', k); }, []);
   useEffect(() => { if (!toast) return; const t = setTimeout(() => setToast(null), 3000); return () => clearTimeout(t); }, [toast]);
 
@@ -437,11 +291,7 @@ function App() {
   return (
     <div className="page">
 
-      {/* Main cursor glow */}
       <div className="cursor-glow" style={{ left: cursor.x, top: cursor.y }} />
-
-      {/* Trailing cursor dot */}
-      <div className="cursor-dot" style={{ left: dotPos.x, top: dotPos.y }} />
 
       {toast && (
         <div className={`toast toast-${toast}`}>
@@ -489,7 +339,7 @@ function App() {
       </section>
 
       <section ref={timelineRef} className="section reveal">
-        <ScrambleLabel text="Journey" className="section-label" />
+        <h2 className="section-label">Journey</h2>
         <div className="timeline">
           {TIMELINE.map((item, i) => (
             <div key={i} className={`timeline-item ${item.highlight ? 'timeline-highlight' : ''}`}>
@@ -503,7 +353,7 @@ function App() {
       <div className="section-divider"><span className="section-divider-dot" /></div>
 
       <section ref={skillsRef} className="section reveal">
-        <ScrambleLabel text="Tech Stack" className="section-label" />
+        <h2 className="section-label">Tech Stack</h2>
         <div className="skills-section">
           {SKILLS.map((group, i) => (
             <div key={i} className="skills-group">
@@ -517,10 +367,16 @@ function App() {
       <div className="section-divider"><span className="section-divider-dot" /></div>
 
       <section ref={projectsRef} className="section reveal">
-        <ScrambleLabel text="Selected Projects" className="section-label" />
+        <h2 className="section-label">Selected Projects</h2>
         <div className="projects-list">
           {PROJECTS.map((project, i) => (
-            <SpotlightRow key={i} project={project} index={i} />
+            <a key={i} className="project-row" href={project.href}>
+              <div className="project-left">
+                <span className="project-num">0{i + 1}</span>
+                <div><h3 className="project-name">{project.name}</h3><p className="project-desc">{project.desc}</p><div className="project-tags">{project.tags.map(tag => (<span key={tag} className="project-tag">{tag}</span>))}</div></div>
+              </div>
+              <span className="project-arrow">↗</span>
+            </a>
           ))}
         </div>
       </section>
@@ -528,7 +384,7 @@ function App() {
       <div className="section-divider"><span className="section-divider-dot" /></div>
 
       <section ref={albumsRef} className="section reveal">
-        <ScrambleLabel text="Favorite Albums" className="section-label" />
+        <h2 className="section-label">Favorite Albums</h2>
         <div className="albums-grid">
           {ALBUMS.map((album, i) => (
             <a key={i} className="vinyl-card" href={album.spotify} target="_blank" rel="noreferrer" style={{ transitionDelay: `${i * 80}ms` }}>
@@ -542,7 +398,7 @@ function App() {
       <div className="section-divider"><span className="section-divider-dot" /></div>
 
       <section ref={galleryRef} className="section reveal">
-        <ScrambleLabel text="Gallery" className="section-label" />
+        <h2 className="section-label">Gallery</h2>
         <div className="gallery-tabs">
           {GALLERY.map(g => (<button key={g.category} className={`gallery-tab ${activeCategory === g.category ? 'active' : ''}`} onClick={() => setActiveCategory(g.category)}>{g.category}</button>))}
         </div>
@@ -559,7 +415,7 @@ function App() {
       <div className="section-divider"><span className="section-divider-dot" /></div>
 
       <section ref={guestRef} className="section reveal">
-        <ScrambleLabel text="Guestbook" className="section-label" />
+        <h2 className="section-label">Guestbook</h2>
         <div className="guestbook-form">
           <form onSubmit={handleSubmit}>
             <input className="field" placeholder="Your name" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} required />
@@ -586,7 +442,7 @@ function App() {
       <div className="section-divider"><span className="section-divider-dot" /></div>
 
       <section ref={resourcesRef} className="section reveal">
-        <ScrambleLabel text="Resources & Credits" className="section-label" />
+        <h2 className="section-label">Resources & Credits</h2>
         <div className="resources-list">
           {RESOURCES.map((group, i) => (
             <div key={i} className="resource-group">
@@ -615,8 +471,13 @@ function App() {
       <audio ref={audioRef} src={currentTrack.audio} onTimeUpdate={handleTimeUpdate} onLoadedMetadata={handleLoadedMetadata} onEnded={nextTrack} />
 
       <div className={`music-player ${isExpanded ? 'expanded' : ''}`}>
+
         <div className="player-collapsed" onClick={() => setIsExpanded(e => !e)}>
-          <img src={currentTrack.cover} alt={currentTrack.title} className={`player-cover ${isPlaying ? 'spinning' : ''} ${isChanging ? 'track-changing' : ''}`} />
+          <img
+            src={currentTrack.cover}
+            alt={currentTrack.title}
+            className={`player-cover ${isPlaying ? 'spinning' : ''} ${isChanging ? 'track-changing' : ''}`}
+          />
           <div className="player-info">
             <span className="player-label">{isPlaying ? 'Now Playing' : 'Paused'}</span>
             <span className="player-track">{currentTrack.title}</span>
@@ -627,31 +488,40 @@ function App() {
 
         {isExpanded && (
           <div className="player-expanded">
-            <img src={currentTrack.cover} alt={currentTrack.title} className={`player-big-cover ${isPlaying ? 'spinning' : ''} ${isChanging ? 'track-changing' : ''}`} />
+
+            <img
+              src={currentTrack.cover}
+              alt={currentTrack.title}
+              className={`player-big-cover ${isPlaying ? 'spinning' : ''} ${isChanging ? 'track-changing' : ''}`}
+            />
+
             <div className={`player-expanded-info ${isChanging ? 'track-changing' : ''}`}>
               <p className="player-expanded-track">{currentTrack.title}</p>
               <p className="player-expanded-artist">{currentTrack.artist}</p>
             </div>
+
             <div className="player-progress-wrap" onClick={handleSeek}>
               <div className="player-progress-bg"><div className="player-progress-fill" style={{ width: `${progress}%` }} /></div>
             </div>
             <div className="player-timestamps"><span>{formatTime(currentTime)}</span><span>{formatTime(duration)}</span></div>
+
             <div className="player-controls">
-              <button className={`player-btn player-btn-shuffle ${shuffle ? 'active' : ''}`} onClick={() => setShuffle(s => !s)}>
+              <button className={`player-btn player-btn-shuffle ${shuffle ? 'active' : ''}`} onClick={() => setShuffle(s => !s)} title={shuffle ? 'Shuffle On' : 'Shuffle Off'}>
                 <svg viewBox="0 0 24 24" fill="currentColor"><path d="M10.59 9.17 5.41 4 4 5.41l5.17 5.17 1.42-1.41zM14.5 4l2.04 2.04L4 18.59 5.41 20 17.96 7.46 20 9.5V4h-5.5zm.33 9.41-1.41 1.41 3.13 3.13L14.5 20H20v-5.5l-2.04 2.04-3.13-3.13z"/></svg>
               </button>
-              <button className="player-btn" onClick={prevTrack}>
+              <button className="player-btn" onClick={prevTrack} title="Previous">
                 <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6 8.5 6V6z"/></svg>
               </button>
-              <button className="player-btn player-btn-main" onClick={togglePlay}>
+              <button className="player-btn player-btn-main" onClick={togglePlay} title={isPlaying ? 'Pause' : 'Play'}>
                 {isPlaying ? <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg> : <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>}
               </button>
-              <button className="player-btn" onClick={nextTrack}>
+              <button className="player-btn" onClick={nextTrack} title="Next">
                 <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 18l8.5-6L6 6v12zm2-8.14 5.5 3.89L8 15.64V9.86zM16 6h2v12h-2z"/></svg>
               </button>
             </div>
+
             <div className="player-volume">
-              <button className="player-vol-icon" onClick={toggleMute}>
+              <button className="player-vol-icon" onClick={toggleMute} title={muted ? 'Unmute' : 'Mute'}>
                 {muted || volume === 0
                   ? <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.5 12A4.5 4.5 0 0 0 14 7.97v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51A8.796 8.796 0 0 0 21 12c0-4.28-3-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3 3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06A8.99 8.99 0 0 0 17.73 18l1.73 1.73L21 18.46 5.54 3 4.27 3zM12 4 9.91 6.09 12 8.18V4z"/></svg>
                   : volume < 0.5
@@ -662,9 +532,14 @@ function App() {
               <input className="player-vol-slider" type="range" min="0" max="1" step="0.01" value={muted ? 0 : volume} onChange={handleVolume} />
               <span className="player-vol-pct">{muted ? 0 : Math.round(volume * 100)}%</span>
             </div>
+
             <div className="player-tracklist">
               {TRACKS.map((track, i) => (
-                <button key={i} className={`player-track-row ${i === playerIndex ? 'active' : ''}`} onClick={() => { changeTrack(() => i); setIsPlaying(true); }}>
+                <button
+                  key={i}
+                  className={`player-track-row ${i === playerIndex ? 'active' : ''}`}
+                  onClick={() => { changeTrack(() => i); setIsPlaying(true); }}
+                >
                   <img src={track.cover} alt={track.title} className="player-track-thumb" />
                   <div className="player-track-meta">
                     <span className="player-track-name">{track.title}</span>
@@ -674,6 +549,7 @@ function App() {
                 </button>
               ))}
             </div>
+
           </div>
         )}
       </div>
