@@ -1,3 +1,15 @@
+// AI-ASSISTED NOTICE:
+// Portions of this file were generated or optimized with the help of two AI tools:
+//
+// 1. ChatGPT (OpenAI) — used for Web Programming finals assistance including component structure,
+//    layout, CSS styling, Supabase integration, and general debugging
+//    Conversation: https://chatgpt.com/share/699dae18-15ec-8012-af5f-0f858686f5bb
+//
+// 2. Claude (Anthropic) — used for scroll-reveal logic, CSS animation structure, and Resources section
+//    Reference: https://claude.ai
+//
+// Human-authored: all personal content (timeline entries, project descriptions, album selections, gallery images, bio text)
+
 import { useEffect, useState, useRef } from 'react';
 import { supabase } from './supabaseClient';
 import avatar from './profile.png';
@@ -16,27 +28,25 @@ import friends7 from './Friends_7.png';
 import family1  from './Family Picture 1.png';
 import family2  from './Family Picture 2.png';
 import family3  from './Family Picture 3.png';
-
-import song1Audio from './Dear April (Side A - Acoustic).mp3';
-import song2Audio from './Dulo Ng Hangganan.mp3';
-import song3Audio from './Lovers Rock.mp3';
-import song4Audio from './Happiness.mp3';
-import song5Audio from './SUPERPOSITION (feat. John Mayer).mp3';
-import song6Audio from './Who Knows.mp3';
-import song1Cover from './Dear April (Side A - Acoustic)_cover.png';  
-import song2Cover from './Dulo Ng Hangganan_cover.png';
-import song3Cover from './Lovers Rock_cover.png';
-import song4Cover from './Happiness_cover.png';
-import song5Cover from './SUPERPOSITION (feat. John Mayer)_cover.png';
-import song6Cover from './Who Knows_cover.png';
+// ─── MUSIC PLAYER TRACKS ─────────────────────────────────────────────────────
+// To add a song:
+//   1. Drop the .mp3 and a cover image into your src/ folder
+//   2. import the files below (follow the same pattern)
+//   3. Add a new entry to the TRACKS array: { title, artist, cover, audio }
+//
+// Cover image can be anything — album art, a photo, whatever you like.
+// ─────────────────────────────────────────────────────────────────────────────
+import song1Audio from './song1.mp3';
+import song2Audio from './song2.mp3';
+import song3Audio from './song3.mp3';
+import song1Cover from './song1cover.png';  // replace with your actual cover filenames
+import song2Cover from './song2cover.png';
+import song3Cover from './song3cover.png';
 
 const TRACKS = [
-  { title: 'Dear April (Side A - Acoustic)', artist: 'Frank Ocean', cover: song1Cover, audio: song1Audio },
-  { title: 'Dulo Ng Hangganan', artist: 'IV OF SPADES', cover: song2Cover, audio: song2Audio },
-  { title: 'Lovers Rock', artist: 'TV Girl', cover: song3Cover, audio: song3Audio },
-  { title: 'Happiness', artist: 'Rex Orange County', cover: song4Cover, audio: song4Audio },
-  { title: 'SUPERPOSITION (feat. John Mayer)', artist: ' Daniel Caesar', cover: song5Cover, audio: song5Audio },
-  { title: 'Who Knows', artist: 'Daniel Caesar', cover: song6Cover, audio: song6Audio },
+  { title: 'Song Title 1', artist: 'Artist Name', cover: song1Cover, audio: song1Audio },
+  { title: 'Song Title 2', artist: 'Artist Name', cover: song2Cover, audio: song2Audio },
+  { title: 'Song Title 3', artist: 'Artist Name', cover: song3Cover, audio: song3Audio },
   // Add more songs here following the same pattern
 ];
 import './App.css';
@@ -228,6 +238,22 @@ function App() {
   };
 
   const currentTime = audioRef.current ? audioRef.current.currentTime : 0;
+
+  const [volume, setVolume] = useState(1);
+  const [muted, setMuted]   = useState(false);
+
+  const handleVolume = (e) => {
+    const val = parseFloat(e.target.value);
+    setVolume(val);
+    setMuted(val === 0);
+    if (audioRef.current) audioRef.current.volume = val;
+  };
+
+  const toggleMute = () => {
+    const next = !muted;
+    setMuted(next);
+    if (audioRef.current) audioRef.current.volume = next ? 0 : volume;
+  };
 
   const [cursor, setCursor] = useState({ x: -999, y: -999 });
 
@@ -652,6 +678,29 @@ function App() {
               <button className="player-btn" onClick={nextTrack} title="Next">
                 <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 18l8.5-6L6 6v12zm2-8.14 5.5 3.89L8 15.64V9.86zM16 6h2v12h-2z"/></svg>
               </button>
+            </div>
+
+            {/* VOLUME */}
+            <div className="player-volume">
+              <button className="player-vol-icon" onClick={toggleMute} title={muted ? 'Unmute' : 'Mute'}>
+                {muted || volume === 0 ? (
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.5 12A4.5 4.5 0 0 0 14 7.97v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51A8.796 8.796 0 0 0 21 12c0-4.28-3-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3 3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06A8.99 8.99 0 0 0 17.73 18l1.73 1.73L21 18.46 5.54 3 4.27 3zM12 4 9.91 6.09 12 8.18V4z"/></svg>
+                ) : volume < 0.5 ? (
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM5 9v6h4l5 5V4L9 9H5z"/></svg>
+                ) : (
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 7.97v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+                )}
+              </button>
+              <input
+                className="player-vol-slider"
+                type="range"
+                min="0"
+                max="1"
+                step="0.01"
+                value={muted ? 0 : volume}
+                onChange={handleVolume}
+              />
+              <span className="player-vol-pct">{muted ? 0 : Math.round(volume * 100)}%</span>
             </div>
 
             {/* TRACK LIST */}

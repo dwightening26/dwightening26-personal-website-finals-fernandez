@@ -1413,6 +1413,77 @@ body:not(.dark) .toast-error {
   color: #fff;
 }
 
+/* VOLUME */
+.player-volume {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.player-vol-icon {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  padding: 0;
+  flex-shrink: 0;
+  transition: color 0.2s ease;
+}
+
+.player-vol-icon:hover { color: var(--accent); }
+
+.player-vol-icon svg {
+  width: 16px;
+  height: 16px;
+}
+
+.player-vol-slider {
+  flex: 1;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 3px;
+  border-radius: 99px;
+  background: var(--border);
+  outline: none;
+  cursor: pointer;
+}
+
+.player-vol-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--accent);
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+.player-vol-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.3);
+}
+
+.player-vol-slider::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: none;
+  cursor: pointer;
+}
+
+.player-vol-pct {
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+  min-width: 2.5ch;
+  text-align: right;
+  flex-shrink: 0;
+}
+
 /* TRACK LIST */
 .player-tracklist {
   width: 100%;
