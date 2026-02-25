@@ -207,15 +207,6 @@ a { text-decoration: none; color: inherit; }
   animation-delay: 0.3s;
 }
 
-.hero-about {
-  font-size: 1rem;
-  line-height: 1.75;
-  color: var(--text-muted);
-  max-width: 560px;
-  margin-top: 1.2rem;
-  font-weight: 400;
-}
-
 /* ── BUTTONS ─────────────────────────────────────── */
 .btn-primary {
   display: inline-flex;
