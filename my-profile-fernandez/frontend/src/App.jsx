@@ -370,9 +370,6 @@ function App() {
         </div>
       </section>
 
-      {/* DIVIDER */}
-      <div className="section-divider"><span className="section-divider-dot" /></div>
-
       {/* ABOUT */}
       <section ref={aboutRef} className="section reveal">
         <button
@@ -393,6 +390,7 @@ function App() {
           </p>
         </div>
       </section>
+
 
       {/* TIMELINE */}
       <section ref={timelineRef} className="section reveal">
