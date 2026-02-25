@@ -1,3 +1,15 @@
+// AI-ASSISTED NOTICE:
+// Portions of this file were generated or optimized with the help of two AI tools:
+//
+// 1. ChatGPT (OpenAI) — used for Web Programming finals assistance including component structure,
+//    layout, CSS styling, Supabase integration, and general debugging
+//    Conversation: https://chatgpt.com/share/699dae18-15ec-8012-af5f-0f858686f5bb
+//
+// 2. Claude (Anthropic) — used for scroll-reveal logic, CSS animation structure, and Resources section
+//    Reference: https://claude.ai
+//
+// Human-authored: all personal content (timeline entries, project descriptions, album selections, gallery images, bio text)
+
 import { useEffect, useState, useRef } from 'react';
 import { supabase } from './supabaseClient';
 import avatar from './profile.png';
@@ -74,6 +86,35 @@ const GALLERY = [
   { category: 'Family',  photos: [family1, family2, family3] },
 ];
 
+// Resources / Credits data
+// AI-ASSISTED: structure and formatting of this section was generated with Claude (Anthropic); ChatGPT (OpenAI) assisted with broader code structure
+// ChatGPT conversation: https://chatgpt.com/share/699dae18-15ec-8012-af5f-0f858686f5bb
+const RESOURCES = [
+  { category: 'Fonts', items: [
+    { name: 'DM Serif Display & DM Sans', source: 'Google Fonts', url: 'https://fonts.google.com/specimen/DM+Serif+Display' },
+  ]},
+  { category: 'Backend & Database', items: [
+    { name: 'Supabase (BaaS — database, auth, realtime)', source: 'Supabase Inc.', url: 'https://supabase.com' },
+  ]},
+  { category: 'Libraries & Frameworks', items: [
+    { name: 'React 18', source: 'Meta Open Source', url: 'https://react.dev' },
+    { name: 'React DOM', source: 'Meta Open Source', url: 'https://react.dev' },
+    { name: '@supabase/supabase-js', source: 'Supabase Inc.', url: 'https://github.com/supabase/supabase-js' },
+  ]},
+  { category: 'Deployment', items: [
+    { name: 'Vercel (hosting & CI/CD)', source: 'Vercel Inc.', url: 'https://vercel.com' },
+  ]},
+  { category: 'Design Inspiration', items: [
+    { name: 'Vinyl record UI concept', source: 'Personal design — CSS animation by Dwight Fernandez', url: null },
+    { name: 'Cursor glow effect', source: 'CSS radial-gradient technique — self-implemented', url: null },
+  ]},
+  { category: 'AI Assistance', items: [
+    { name: 'ChatGPT (OpenAI) — used for component structure, layout, CSS styling, Supabase integration, and general debugging (Finals WEBPROG)', source: 'OpenAI', url: 'https://chatgpt.com/share/699dae18-15ec-8012-af5f-0f858686f5bb' },
+    { name: 'Claude (Anthropic) — used for scroll-reveal logic, CSS animation structure, and Resources section generation', source: 'Anthropic', url: 'https://claude.ai' },
+  ]},
+];
+
+// AI-ASSISTED: useScrollReveal hook pattern suggested by Claude (Anthropic)
 function useScrollReveal(options = {}) {
   const ref = useRef(null);
   useEffect(() => {
@@ -97,10 +138,16 @@ function App() {
   const [aboutOpen, setAboutOpen]       = useState(false);
   const [activeCategory, setActiveCategory] = useState('Friends');
   const [lightbox, setLightbox]         = useState(null);
+
+  // AI-ASSISTED: localStorage persistence pattern for liked entries — Claude (Anthropic)
   const [likedIds, setLikedIds]         = useState(() => {
     const stored = localStorage.getItem('guestbook_likes');
     return stored ? JSON.parse(stored) : [];
   });
+
+  // SUCCESS TOAST STATE — improvement #3
+  const [toast, setToast] = useState(null); // null | 'success' | 'error'
+
   const [cursor, setCursor] = useState({ x: -999, y: -999 });
 
   useEffect(() => {
@@ -116,6 +163,13 @@ function App() {
     return () => window.removeEventListener('keydown', onKey);
   }, []);
 
+  // Auto-dismiss toast after 3 seconds
+  useEffect(() => {
+    if (!toast) return;
+    const t = setTimeout(() => setToast(null), 3000);
+    return () => clearTimeout(t);
+  }, [toast]);
+
   const timelineRef = useScrollReveal();
   const skillsRef   = useScrollReveal();
   const projectsRef = useScrollReveal();
@@ -123,6 +177,7 @@ function App() {
   const albumsRef   = useScrollReveal();
   const galleryRef  = useScrollReveal();
   const guestRef    = useScrollReveal();
+  const resourcesRef = useScrollReveal();
   const footerRef   = useScrollReveal();
 
   const fetchEntries = async () => {
@@ -150,11 +205,18 @@ function App() {
     document.documentElement.classList.toggle('dark', darkMode);
   }, [darkMode]);
 
+  // IMPROVEMENT #3: success/error toast on guestbook submit
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     const { error } = await supabase.from('guestbook').insert([{ name: form.name, message: form.message }]);
-    if (!error) { setForm({ name: '', message: '' }); fetchEntries(); }
+    if (!error) {
+      setForm({ name: '', message: '' });
+      fetchEntries();
+      setToast('success');
+    } else {
+      setToast('error');
+    }
     setLoading(false);
   };
 
@@ -172,8 +234,15 @@ function App() {
   return (
     <div className="page">
 
-      {/* CURSOR GLOW */}
+      {/* CURSOR GLOW — AI-ASSISTED: radial-gradient cursor effect, Claude (Anthropic) */}
       <div className="cursor-glow" style={{ left: cursor.x, top: cursor.y }} />
+
+      {/* TOAST NOTIFICATION — Improvement #3 */}
+      {toast && (
+        <div className={`toast toast-${toast}`}>
+          {toast === 'success' ? '✓ Message sent! Thanks for signing the guestbook.' : '✗ Something went wrong. Please try again.'}
+        </div>
+      )}
 
       {/* LIGHTBOX */}
       {lightbox !== null && (
@@ -399,6 +468,34 @@ function App() {
         )}
       </section>
 
+      {/* DIVIDER */}
+      <div className="section-divider"><span className="section-divider-dot" /></div>
+
+      {/* RESOURCES / CREDITS — Improvement #1 */}
+      <section ref={resourcesRef} className="section reveal">
+        <h2 className="section-label">Resources & Credits</h2>
+        <div className="resources-list">
+          {RESOURCES.map((group, i) => (
+            <div key={i} className="resource-group">
+              <span className="resource-category">{group.category}</span>
+              <ul className="resource-items">
+                {group.items.map((item, j) => (
+                  <li key={j} className="resource-item">
+                    <span className="resource-name">{item.name}</span>
+                    <span className="resource-sep">·</span>
+                    {item.url ? (
+                      <a className="resource-source resource-link" href={item.url} target="_blank" rel="noreferrer">{item.source} ↗</a>
+                    ) : (
+                      <span className="resource-source">{item.source}</span>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* FOOTER */}
       <footer ref={footerRef} className="footer reveal">
         <span className="footer-name">Dwight Fernandez</span>
@@ -406,7 +503,7 @@ function App() {
         <span className="footer-copy">© 2026 · Built with React & Supabase</span>
       </footer>
 
-      {/* NOW PLAYING */}
+      {/* NOW PLAYING — AI-ASSISTED: animation keyframes structure, Claude (Anthropic) */}
       <div className="now-playing">
         <img src={blondeCover} alt="Blonde" className="now-playing-cover" />
         <div className="now-playing-info">
