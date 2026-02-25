@@ -30,15 +30,159 @@ const TIMELINE = [
 const SKILLS = [
   {
     category: 'Languages',
-    tags: ['JavaScript', 'HTML', 'CSS', 'SQL', 'Python'],
+    items: [
+      {
+        name: 'JavaScript',
+        icon: (
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <rect width="24" height="24" rx="3" fill="#F7DF1E"/>
+            <path d="M6.5 17.5C6.9 18.2 7.5 18.7 8.5 18.7C9.5 18.7 10.1 18.2 10.1 17.3C10.1 16.3 9.5 15.9 8.4 15.4L7.8 15.1C6.2 14.4 5.1 13.6 5.1 11.7C5.1 10 6.4 8.7 8.4 8.7C9.8 8.7 10.8 9.2 11.5 10.4L9.9 11.4C9.5 10.7 9.1 10.4 8.4 10.4C7.7 10.4 7.2 10.9 7.2 11.6C7.2 12.5 7.7 12.9 8.8 13.4L9.4 13.7C11.2 14.5 12.3 15.2 12.3 17.2C12.3 19.3 10.7 20.4 8.6 20.4C6.5 20.4 5.2 19.4 4.6 18.1L6.5 17.5ZM13.5 17.3C14 18.2 14.8 18.7 15.9 18.7C17 18.7 17.5 18.1 17.5 17.4V8.9H19.6V17.4C19.6 19.3 18.4 20.4 16 20.4C13.8 20.4 12.5 19.3 11.9 17.9L13.5 17.3Z" fill="#222"/>
+          </svg>
+        ),
+      },
+      {
+        name: 'HTML',
+        icon: (
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3 2l1.5 17L12 21l7.5-2L21 2H3z" fill="#E44D26"/>
+            <path d="M12 19.5l6.1-1.7 1.3-14.8H12v16.5z" fill="#F16529"/>
+            <path d="M12 11H8.5l-.2-2.5H12V6H5.8l.6 6.5H12V11zm0 5.5l-.1.1-3.2-.9-.2-2.2H6l.4 4.4 5.6 1.6V16.5z" fill="#EBEBEB"/>
+            <path d="M12 11v2.5h3.3l-.3 3.1-3 .9v2.5l5.6-1.6.4-4.9H12zm0-5v2.5h6.4l-.2-2.5H12z" fill="#fff"/>
+          </svg>
+        ),
+      },
+      {
+        name: 'CSS',
+        icon: (
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3 2l1.5 17L12 21l7.5-2L21 2H3z" fill="#264DE4"/>
+            <path d="M12 19.5l6.1-1.7 1.3-14.8H12v16.5z" fill="#2965F1"/>
+            <path d="M12 11H8.3l-.2-2.5H12V6H5.8l.6 6.5H12V11zm0 5.5-.1.1-3.1-.9-.2-2.2H6.3l.4 4.4 5.3 1.6V16.5z" fill="#EBEBEB"/>
+            <path d="M12 11v2.5h3l-.3 3.1-2.7.8v2.6l5.3-1.6.4-4.9H12zm0-5v2.5h6.1l-.2-2.5H12z" fill="#fff"/>
+          </svg>
+        ),
+      },
+      {
+        name: 'SQL',
+        icon: (
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="24" height="24" rx="3" fill="#00758F"/>
+            <ellipse cx="12" cy="7" rx="7" ry="3" fill="#F29111"/>
+            <path d="M5 7v4c0 1.66 3.13 3 7 3s7-1.34 7-3V7" stroke="#F29111" strokeWidth="1.2" fill="none"/>
+            <path d="M5 11v4c0 1.66 3.13 3 7 3s7-1.34 7-3v-4" stroke="#F29111" strokeWidth="1.2" fill="none"/>
+          </svg>
+        ),
+      },
+      {
+        name: 'Python',
+        icon: (
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M11.9 2C7.9 2 8.1 3.8 8.1 3.8V5.9h3.9v.6H5.8S3 6.2 3 10.2s2.5 3.9 2.5 3.9H7V12s-.1-2.5 2.5-2.5h4.3s2.4.1 2.4-2.3V4.3C16.2 2 11.9 2 11.9 2zm-1.4 1.4c.5 0 .9.4.9.9s-.4.9-.9.9-.9-.4-.9-.9.4-.9.9-.9z" fill="#366A96"/>
+            <path d="M12.1 22c4 0 3.8-1.8 3.8-1.8v-2.1h-3.9v-.6h6.2S21 17.8 21 13.8s-2.5-3.9-2.5-3.9H17v2.1s.1 2.5-2.5 2.5H10.2s-2.4-.1-2.4 2.3v3.9c0 2.3 4.3 2.3 4.3 2.3zm1.4-1.4c-.5 0-.9-.4-.9-.9s.4-.9.9-.9.9.4.9.9-.4.9-.9.9z" fill="#FFC331"/>
+          </svg>
+        ),
+      },
+    ],
   },
   {
     category: 'Frontend',
-    tags: ['React', 'Tailwind CSS', 'Responsive Design'],
+    items: [
+      {
+        name: 'React',
+        icon: (
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="12" cy="12" r="2.1" fill="#61DAFB"/>
+            <ellipse cx="12" cy="12" rx="10" ry="3.8" stroke="#61DAFB" strokeWidth="1.2" fill="none"/>
+            <ellipse cx="12" cy="12" rx="10" ry="3.8" stroke="#61DAFB" strokeWidth="1.2" fill="none" transform="rotate(60 12 12)"/>
+            <ellipse cx="12" cy="12" rx="10" ry="3.8" stroke="#61DAFB" strokeWidth="1.2" fill="none" transform="rotate(120 12 12)"/>
+          </svg>
+        ),
+      },
+      {
+        name: 'Tailwind CSS',
+        icon: (
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 6C9.6 6 8.1 7.2 7.5 9.6c.9-1.2 1.95-1.65 3.15-1.35.685.171 1.174.668 1.715 1.218C13.28 10.47 14.22 11.4 16.5 11.4c2.4 0 3.9-1.2 4.5-3.6-.9 1.2-1.95 1.65-3.15 1.35-.685-.171-1.174-.668-1.715-1.218C15.22 6.932 14.28 6 12 6zM7.5 11.4C5.1 11.4 3.6 12.6 3 15c.9-1.2 1.95-1.65 3.15-1.35.685.171 1.174.668 1.715 1.218C8.78 15.87 9.72 16.8 12 16.8c2.4 0 3.9-1.2 4.5-3.6-.9 1.2-1.95 1.65-3.15 1.35-.685-.171-1.174-.668-1.715-1.218C10.72 12.332 9.78 11.4 7.5 11.4z" fill="#38BDF8"/>
+          </svg>
+        ),
+      },
+      {
+        name: 'Responsive Design',
+        icon: (
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="2" y="5" width="14" height="10" rx="1.5" stroke="#A78BFA" strokeWidth="1.5"/>
+            <rect x="16" y="8" width="6" height="7" rx="1" stroke="#A78BFA" strokeWidth="1.5"/>
+            <path d="M6 18h6" stroke="#A78BFA" strokeWidth="1.5" strokeLinecap="round"/>
+            <path d="M9 15v3" stroke="#A78BFA" strokeWidth="1.5" strokeLinecap="round"/>
+          </svg>
+        ),
+      },
+    ],
   },
   {
     category: 'Tools & Platforms',
-    tags: ['Supabase', 'PostgreSQL', 'Git', 'GitHub', 'VS Code', 'Figma'],
+    items: [
+      {
+        name: 'Supabase',
+        icon: (
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="sb" x1="3" y1="2.5" x2="21.5" y2="21.5" gradientUnits="userSpaceOnUse">
+                <stop stopColor="#3ECF8E"/>
+                <stop offset="1" stopColor="#1a9e6a"/>
+              </linearGradient>
+            </defs>
+            <path d="M13.5 2.5L3 14.5h8V21.5l10.5-12H13.5V2.5z" fill="url(#sb)" stroke="#3ECF8E" strokeWidth="0.5"/>
+          </svg>
+        ),
+      },
+      {
+        name: 'PostgreSQL',
+        icon: (
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M17.1 3.4c-.9-.3-2-.4-3.1-.2-.6-1.1-1.6-1.8-2.8-2C9 .9 6.9 2.4 6 4.7c-1.2.2-2.2.8-2.8 1.8C2.1 8 2.4 10.2 3.7 11.9c-.2.8-.2 1.6.1 2.4.6 1.5 2 2.4 3.6 2.4.3 0 .7 0 1-.1l.1.4c.3 1.2 1 2.1 2 2.6.6.3 1.3.4 2 .3.6-.1 1.2-.4 1.7-.8.4.3.9.5 1.4.5h.3c1.1-.1 2-.9 2.3-2l.1-.4c1.3.4 2.7 0 3.5-1.1.9-1.2.9-2.9.1-4.3.5-.7.7-1.5.7-2.4 0-2.2-1.2-4.1-3.2-5.1-.6-.2-.6-.2-.5-.2z" fill="#336791"/>
+            <path d="M12 6.5c1.1 0 2 .4 2.7 1.1.7.7 1 1.6 1 2.6v.3c-.1 1.8-1.6 3.2-3.5 3.2-1 0-1.9-.4-2.6-1-.7-.7-1.1-1.6-1.1-2.6 0-1 .4-1.9 1.1-2.6.7-.7 1.6-1 2.4-1z" fill="#fff" opacity=".3"/>
+          </svg>
+        ),
+      },
+      {
+        name: 'Git',
+        icon: (
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M22.3 11.3L12.7 1.7a1 1 0 00-1.4 0L9.1 3.9l2.5 2.5a1.2 1.2 0 011.5 1.5l2.4 2.4a1.2 1.2 0 011.1 2 1.2 1.2 0 01-1.2 1.2 1.2 1.2 0 01-1.2-1.2c0-.2 0-.3.1-.5L11.9 9v6.3a1.2 1.2 0 01.3 2.3 1.2 1.2 0 01-1.2-1.2 1.2 1.2 0 011-1.2V8.8a1.2 1.2 0 01-.7-1.6L8.8 4.7 1.7 11.8a1 1 0 000 1.4l9.6 9.6a1 1 0 001.4 0l9.6-9.6a1 1 0 000-1.4v.1z" fill="#F05032"/>
+          </svg>
+        ),
+      },
+      {
+        name: 'GitHub',
+        icon: (
+          <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.17 6.839 9.49.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836a9.59 9.59 0 0 1 2.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.741 0 .267.18.578.688.48C19.138 20.167 22 16.418 22 12c0-5.523-4.477-10-10-10z"/>
+          </svg>
+        ),
+      },
+      {
+        name: 'VS Code',
+        icon: (
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M17 1.5l-8.9 8.2L3.4 6 1.5 7l4 5-4 5 1.9 1 4.7-3.7L17 22.5l5.5-2.7V4.2L17 1.5z" fill="#007ACC"/>
+            <path d="M17 6.1L9.8 12 17 17.9V6.1z" fill="#fff" opacity=".5"/>
+          </svg>
+        ),
+      },
+      {
+        name: 'Figma',
+        icon: (
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M8 2h4a4 4 0 010 8H8V2z" fill="#F24E1E"/>
+            <path d="M8 10h4a4 4 0 010 8H8v-8z" fill="#FF7262"/>
+            <path d="M8 18a4 4 0 100 0z" fill="#1ABCFE"/>
+            <path d="M16 6a4 4 0 110 0z" fill="#0ACF83"/>
+            <path d="M8 2H4a4 4 0 000 8h4V2z" fill="#A259FF"/>
+          </svg>
+        ),
+      },
+    ],
   },
 ];
 
@@ -259,8 +403,10 @@ function App() {
             <div key={i} className="skills-group">
               <span className="skills-category">{group.category}</span>
               <div className="skills-wrap">
-                {group.tags.map(tag => (
-                  <span key={tag} className="skill-tag">{tag}</span>
+                {group.items.map((skill) => (
+                  <div key={skill.name} className="skill-icon" data-tooltip={skill.name}>
+                    {skill.icon}
+                  </div>
                 ))}
               </div>
             </div>
