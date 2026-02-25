@@ -1413,6 +1413,25 @@ body:not(.dark) .toast-error {
   color: #fff;
 }
 
+.player-btn-shuffle.active {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-soft);
+  position: relative;
+}
+
+.player-btn-shuffle.active::after {
+  content: '';
+  position: absolute;
+  bottom: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
 /* VOLUME */
 .player-volume {
   display: flex;
