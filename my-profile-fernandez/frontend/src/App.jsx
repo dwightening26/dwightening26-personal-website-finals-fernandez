@@ -1,15 +1,3 @@
-// AI-ASSISTED NOTICE:
-// Portions of this file were generated or optimized with the help of two AI tools:
-//
-// 1. ChatGPT (OpenAI) — used for Web Programming finals assistance including component structure,
-//    layout, CSS styling, Supabase integration, and general debugging
-//    Conversation: https://chatgpt.com/share/699dae18-15ec-8012-af5f-0f858686f5bb
-//
-// 2. Claude (Anthropic) — used for scroll-reveal logic, CSS animation structure, and Resources section
-//    Reference: https://claude.ai
-//
-// Human-authored: all personal content (timeline entries, project descriptions, album selections, gallery images, bio text)
-
 import { useEffect, useState, useRef } from 'react';
 import { supabase } from './supabaseClient';
 import avatar from './profile.png';
@@ -28,6 +16,29 @@ import friends7 from './Friends_7.png';
 import family1  from './Family Picture 1.png';
 import family2  from './Family Picture 2.png';
 import family3  from './Family Picture 3.png';
+
+import song1Audio from './Dear April (Side A - Acoustic).mp3';
+import song2Audio from './Dulo Ng Hangganan.mp3';
+import song3Audio from './Lovers Rock.mp3';
+import song4Audio from './Happiness.mp3';
+import song5Audio from './SUPERPOSITION (feat. John Mayer).mp3';
+import song6Audio from './Who Knows.mp3';
+import song1Cover from './Dear April (Side A - Acoustic)_cover.png';  
+import song2Cover from './IV OF SPADES - Dulo Ng Hangganan_cover.png';
+import song3Cover from './Lovers Rock_cover.png';
+import song4Cover from './Happiness_cover.png';
+import song5Cover from './SUPERPOSITION (feat. John Mayer)_coverr.png';
+import song6Cover from './Who Knows_cover.png';
+
+const TRACKS = [
+  { title: 'Dear April (Side A - Acoustic)', artist: 'Frank Ocean', cover: song1Cover, audio: song1Audio },
+  { title: 'Dulo Ng Hangganan', artist: 'IV OF SPADES', cover: song2Cover, audio: song2Audio },
+  { title: 'Lovers Rock', artist: 'TV Girl', cover: song3Cover, audio: song3Audio },
+  { title: 'Happiness', artist: 'Rex Orange County', cover: song4Cover, audio: song4Audio },
+  { title: 'SUPERPOSITION (feat. John Mayer)', artist: ' Daniel Caesar', cover: song5Cover, audio: song5Audio },
+  { title: 'Who Knows', artist: 'Daniel Caesar', cover: song6Cover, audio: song6Audio },
+  // Add more songs here following the same pattern
+];
 import './App.css';
 
 const TIMELINE = [
@@ -147,6 +158,76 @@ function App() {
 
   // SUCCESS TOAST STATE — improvement #3
   const [toast, setToast] = useState(null); // null | 'success' | 'error'
+
+  // MUSIC PLAYER STATE
+  const [playerIndex, setPlayerIndex] = useState(0);
+  const [isPlaying, setIsPlaying]     = useState(false);
+  const [progress, setProgress]       = useState(0);
+  const [duration, setDuration]       = useState(0);
+  const [isExpanded, setIsExpanded]   = useState(false);
+  const audioRef                      = useRef(null);
+
+  const currentTrack = TRACKS[playerIndex];
+
+  // Load new track whenever index changes
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    audio.src = currentTrack.audio;
+    audio.load();
+    if (isPlaying) audio.play().catch(() => setIsPlaying(false));
+  }, [playerIndex]);
+
+  // Play / pause in sync with isPlaying state
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    if (isPlaying) {
+      audio.play().catch(() => setIsPlaying(false));
+    } else {
+      audio.pause();
+    }
+  }, [isPlaying]);
+
+  const togglePlay = () => setIsPlaying(p => !p);
+
+  const prevTrack = () => {
+    setPlayerIndex(i => (i - 1 + TRACKS.length) % TRACKS.length);
+    setProgress(0);
+  };
+
+  const nextTrack = () => {
+    setPlayerIndex(i => (i + 1) % TRACKS.length);
+    setProgress(0);
+  };
+
+  const handleTimeUpdate = () => {
+    const audio = audioRef.current;
+    if (!audio || !audio.duration) return;
+    setProgress((audio.currentTime / audio.duration) * 100);
+  };
+
+  const handleLoadedMetadata = () => {
+    setDuration(audioRef.current?.duration || 0);
+  };
+
+  const handleSeek = (e) => {
+    const audio = audioRef.current;
+    if (!audio || !audio.duration) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    const pct  = (e.clientX - rect.left) / rect.width;
+    audio.currentTime = pct * audio.duration;
+    setProgress(pct * 100);
+  };
+
+  const formatTime = (secs) => {
+    if (!secs || isNaN(secs)) return '0:00';
+    const m = Math.floor(secs / 60);
+    const s = Math.floor(secs % 60).toString().padStart(2, '0');
+    return `${m}:${s}`;
+  };
+
+  const currentTime = audioRef.current ? audioRef.current.currentTime : 0;
 
   const [cursor, setCursor] = useState({ x: -999, y: -999 });
 
@@ -503,17 +584,100 @@ function App() {
         <span className="footer-copy">© 2026 · Built with React & Supabase</span>
       </footer>
 
-      {/* NOW PLAYING — AI-ASSISTED: animation keyframes structure, Claude (Anthropic) */}
-      <div className="now-playing">
-        <img src={blondeCover} alt="Blonde" className="now-playing-cover" />
-        <div className="now-playing-info">
-          <span className="now-playing-label">Now Playing</span>
-          <span className="now-playing-track">Self Control</span>
-          <span className="now-playing-artist">Frank Ocean</span>
+      {/* HIDDEN AUDIO ELEMENT */}
+      <audio
+        ref={audioRef}
+        src={currentTrack.audio}
+        onTimeUpdate={handleTimeUpdate}
+        onLoadedMetadata={handleLoadedMetadata}
+        onEnded={nextTrack}
+      />
+
+      {/* MUSIC PLAYER */}
+      <div className={`music-player ${isExpanded ? 'expanded' : ''}`}>
+
+        {/* COLLAPSED VIEW */}
+        <div className="player-collapsed" onClick={() => setIsExpanded(e => !e)}>
+          <img src={currentTrack.cover} alt={currentTrack.title} className={`player-cover ${isPlaying ? 'spinning' : ''}`} />
+          <div className="player-info">
+            <span className="player-label">{isPlaying ? 'Now Playing' : 'Paused'}</span>
+            <span className="player-track">{currentTrack.title}</span>
+            <span className="player-artist">{currentTrack.artist}</span>
+          </div>
+          {isPlaying ? (
+            <div className="now-playing-bars">
+              <span className="bar" /><span className="bar" /><span className="bar" /><span className="bar" />
+            </div>
+          ) : (
+            <span className="player-expand-icon">▲</span>
+          )}
         </div>
-        <div className="now-playing-bars">
-          <span className="bar" /><span className="bar" /><span className="bar" /><span className="bar" />
-        </div>
+
+        {/* EXPANDED VIEW */}
+        {isExpanded && (
+          <div className="player-expanded">
+
+            {/* BIG COVER */}
+            <img src={currentTrack.cover} alt={currentTrack.title} className={`player-big-cover ${isPlaying ? 'spinning' : ''}`} />
+
+            {/* TRACK INFO */}
+            <div className="player-expanded-info">
+              <p className="player-expanded-track">{currentTrack.title}</p>
+              <p className="player-expanded-artist">{currentTrack.artist}</p>
+            </div>
+
+            {/* PROGRESS BAR + TIMESTAMPS */}
+            <div className="player-progress-wrap" onClick={handleSeek}>
+              <div className="player-progress-bg">
+                <div className="player-progress-fill" style={{ width: `${progress}%` }} />
+              </div>
+            </div>
+            <div className="player-timestamps">
+              <span>{formatTime(currentTime)}</span>
+              <span>{formatTime(duration)}</span>
+            </div>
+
+            {/* CONTROLS */}
+            <div className="player-controls">
+              <button className="player-btn" onClick={prevTrack} title="Previous">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6 8.5 6V6z"/></svg>
+              </button>
+              <button className="player-btn player-btn-main" onClick={togglePlay} title={isPlaying ? 'Pause' : 'Play'}>
+                {isPlaying ? (
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                ) : (
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                )}
+              </button>
+              <button className="player-btn" onClick={nextTrack} title="Next">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 18l8.5-6L6 6v12zm2-8.14 5.5 3.89L8 15.64V9.86zM16 6h2v12h-2z"/></svg>
+              </button>
+            </div>
+
+            {/* TRACK LIST */}
+            <div className="player-tracklist">
+              {TRACKS.map((track, i) => (
+                <button
+                  key={i}
+                  className={`player-track-row ${i === playerIndex ? 'active' : ''}`}
+                  onClick={() => { setPlayerIndex(i); setProgress(0); setIsPlaying(true); }}
+                >
+                  <img src={track.cover} alt={track.title} className="player-track-thumb" />
+                  <div className="player-track-meta">
+                    <span className="player-track-name">{track.title}</span>
+                    <span className="player-track-sub">{track.artist}</span>
+                  </div>
+                  {i === playerIndex && isPlaying && (
+                    <div className="now-playing-bars mini">
+                      <span className="bar" /><span className="bar" /><span className="bar" /><span className="bar" />
+                    </div>
+                  )}
+                </button>
+              ))}
+            </div>
+
+          </div>
+        )}
       </div>
 
     </div>
