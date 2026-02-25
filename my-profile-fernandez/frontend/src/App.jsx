@@ -90,6 +90,8 @@ function App() {
     window.addEventListener('mousemove', move);
     return () => window.removeEventListener('mousemove', move);
   }, []);
+
+  const timelineRef = useScrollReveal(); // ← FIXED: was missing
   const projectsRef = useScrollReveal();
   const aboutRef    = useScrollReveal();
   const albumsRef   = useScrollReveal();
