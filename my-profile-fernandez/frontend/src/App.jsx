@@ -45,6 +45,7 @@ const TRACKS = [
   { title: 'Who Knows',                         artist: 'Daniel Caesar',     cover: song6Cover, audio: song6Audio },
   { title: 'Lover, You Should Have Come Over',  artist: 'Jeff Buckley',     cover: song7Cover, audio: song7Audio },
   { title: 'Last Night on Earth',               artist: 'Green Day',      cover: song8Cover, audio: song8Audio },
+  { title: 'About You',                         artist: 'The 1975',      cover: song9Cover, audio: song9Audio },
   
 ];
 
