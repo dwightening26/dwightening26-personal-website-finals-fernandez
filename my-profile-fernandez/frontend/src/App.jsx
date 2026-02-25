@@ -27,7 +27,7 @@ import song1Cover from './Dear April (Side A - Acoustic)_cover.png';
 import song2Cover from './Dulo Ng Hangganan_cover.png';
 import song3Cover from './Lovers Rock_cover.png';
 import song4Cover from './Happiness_cover.png';
-import song5Cover from './SUPERPOSITION (feat. John Mayer)_coverr.png';
+import song5Cover from './SUPERPOSITION (feat. John Mayer)_cover.png';
 import song6Cover from './Who Knows_cover.png';
 
 const TRACKS = [
