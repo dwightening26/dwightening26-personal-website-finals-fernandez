@@ -77,6 +77,7 @@ function App() {
   const [darkMode, setDarkMode]         = useState(true);
   const [loading, setLoading]           = useState(false);
   const [visitorCount, setVisitorCount] = useState(null);
+  const [aboutOpen, setAboutOpen]       = useState(false);
   const [likedIds, setLikedIds]         = useState(() => {
     const stored = localStorage.getItem('guestbook_likes');
     return stored ? JSON.parse(stored) : [];
@@ -236,13 +237,23 @@ function App() {
 
       {/* ABOUT */}
       <section ref={aboutRef} className="section reveal">
-        <h2 className="section-label">About Me</h2>
-        <p className="about-text">
-          I'm a 2nd-year IT student who's still finding his craft in his course, but I'm passionate about learning and
-          experimenting with web technologies. I enjoy tackling real-world problems through clean, efficient code and
-          thoughtful UI design. Outside of tech, you'll usually find me at the gym or immersed in gaming bringing
-          the same focus and dedication to every challenge I take on.
-        </p>
+        <button
+          className="about-toggle"
+          onClick={() => setAboutOpen(!aboutOpen)}
+          aria-expanded={aboutOpen}
+        >
+          <span className="section-label about-label">About Me</span>
+          <span className={`about-chevron ${aboutOpen ? 'open' : ''}`}>↓</span>
+        </button>
+
+        <div className={`about-body ${aboutOpen ? 'expanded' : ''}`}>
+          <p className="about-text">
+            I'm a 2nd-year IT student who's still finding his craft in his course, but I'm passionate about learning and
+            experimenting with web technologies. I enjoy tackling real-world problems through clean, efficient code and
+            thoughtful UI design. Outside of tech, you'll usually find me at the gym or immersed in gaming bringing
+            the same focus and dedication to every challenge I take on.
+          </p>
+        </div>
       </section>
 
       {/* ALBUMS */}
