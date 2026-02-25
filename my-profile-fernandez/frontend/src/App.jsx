@@ -342,30 +342,6 @@ function App() {
           </button>
         </div>
       </nav>
-      
-      {/* DIVIDER */}
-      <div className="section-divider"><span className="section-divider-dot" /></div>
-
-      {/* ABOUT */}
-      <section ref={aboutRef} className="section reveal">
-        <button
-          className="about-toggle"
-          onClick={() => setAboutOpen(!aboutOpen)}
-          aria-expanded={aboutOpen}
-        >
-          <span className="section-label about-label">About Me</span>
-          <span className={`about-chevron ${aboutOpen ? 'open' : ''}`}>↓</span>
-        </button>
-
-        <div className={`about-body ${aboutOpen ? 'expanded' : ''}`}>
-          <p className="about-text">
-            I'm a 2nd-year IT student who's still finding his craft in his course, but I'm passionate about learning and
-            experimenting with web technologies. I enjoy tackling real-world problems through clean, efficient code and
-            thoughtful UI design. Outside of tech, you'll usually find me at the gym or immersed in gaming bringing
-            the same focus and dedication to every challenge I take on.
-          </p>
-        </div>
-      </section>
 
       {/* HERO */}
       <section className="hero">
@@ -391,6 +367,30 @@ function App() {
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg>
             <span>Email</span>
           </a>
+        </div>
+      </section>
+
+      {/* DIVIDER */}
+      <div className="section-divider"><span className="section-divider-dot" /></div>
+
+      {/* ABOUT */}
+      <section ref={aboutRef} className="section reveal">
+        <button
+          className="about-toggle"
+          onClick={() => setAboutOpen(!aboutOpen)}
+          aria-expanded={aboutOpen}
+        >
+          <span className="section-label about-label">About Me</span>
+          <span className={`about-chevron ${aboutOpen ? 'open' : ''}`}>↓</span>
+        </button>
+
+        <div className={`about-body ${aboutOpen ? 'expanded' : ''}`}>
+          <p className="about-text">
+            I'm a 2nd-year IT student who's still finding his craft in his course, but I'm passionate about learning and
+            experimenting with web technologies. I enjoy tackling real-world problems through clean, efficient code and
+            thoughtful UI design. Outside of tech, you'll usually find me at the gym or immersed in gaming bringing
+            the same focus and dedication to every challenge I take on.
+          </p>
         </div>
       </section>
 
