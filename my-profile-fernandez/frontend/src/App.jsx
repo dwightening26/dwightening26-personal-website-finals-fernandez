@@ -13,9 +13,9 @@ import friends4 from './Friends_4.png';
 import friends5 from './Friends_5.png';
 import friends6 from './Friends_6.png';
 import friends7 from './Friends_7.png';
-import family1  from './Family_Picture_1.png';
-import family2  from './Family_Picture_2.png';
-import family3  from './Family_Picture_3.png';
+import family1  from './Family Picture 1.png';
+import family2  from './Family Picture 2.png';
+import family3  from './Family Picture 3.png';
 import './App.css';
 
 const TIMELINE = [
