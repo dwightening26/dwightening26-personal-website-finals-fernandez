@@ -1,4 +1,4 @@
-# dwightening26-personal-website-finals-fernandez
+# dwight's personal website finals
 
 A personal profile website built as a finals project for IT242. Designed and developed from scratch to represent who I am as a developer — combining clean UI, real-time backend features, and a range of interactive elements that go beyond the course requirements.
 
