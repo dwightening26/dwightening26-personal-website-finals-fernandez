@@ -432,7 +432,9 @@ function App() {
               <div key={entry.id} className="entry-item" style={{ transitionDelay: `${i * 60}ms` }}>
                 <div className="entry-top"><strong className="entry-name">{entry.name}</strong><span className="entry-date">{new Date(entry.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span></div>
                 <p className="entry-msg">{entry.message}</p>
-                <button className={`like-btn ${likedIds.includes(entry.id) ? 'liked' : ''}`} onClick={() => handleLike(entry.id, entry.likes || 0)} disabled={likedIds.includes(entry.id)}>♥ {entry.likes || 0}</button>
+                <button className={`like-btn ${likedIds.includes(entry.id) ? 'liked' : ''}`} onClick={() => handleLike(entry.id, entry.likes || 0)} disabled={likedIds.includes(entry.id)}>
+  ♥ <span className="like-count">{entry.likes || 0}</span>
+</button>
               </div>
             ))}
           </div>
